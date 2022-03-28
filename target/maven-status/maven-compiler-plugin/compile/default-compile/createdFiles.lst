@@ -1,0 +1,4 @@
+control\PrincipalController.class
+control\Tienda.class
+control\GestionProductosController.class
+control\RegistroProductoController.class
