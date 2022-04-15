@@ -25,6 +25,8 @@ public class PrincipalController implements Initializable {
   private Button btnVentas;
   @FXML
   private Button btnGestionProductos;
+    @FXML
+    private Button btnRegistrarUsuario;
 
   /**
   * Initializes the controller class.
@@ -51,7 +53,7 @@ public class PrincipalController implements Initializable {
   @FXML
   private void gestionProductos(ActionEvent event) throws IOException {
      
-    Scene scene = new Scene(loadFXML("/vista/gestionProductos"));
+    Scene scene = new Scene(loadFXML("/vista/Login"));
     Stage secundaryStage = new Stage();
     secundaryStage.setScene(scene);
     secundaryStage.initModality(Modality.APPLICATION_MODAL);
@@ -67,5 +69,14 @@ public class PrincipalController implements Initializable {
     FXMLLoader fxmlLoader = new FXMLLoader(Tienda.class.getResource(fxml + ".fxml"));
     return fxmlLoader.load();
   }  
+
+    @FXML
+    private void registrarUsuario(ActionEvent event) throws IOException {
+    Scene scene = new Scene(loadFXML("/vista/RegistrarUsuario"));
+    Stage secundaryStage = new Stage();
+    secundaryStage.setScene(scene);
+    secundaryStage.initModality(Modality.APPLICATION_MODAL);
+    secundaryStage.show();
+    }
     
 }

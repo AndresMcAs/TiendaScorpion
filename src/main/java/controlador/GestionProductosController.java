@@ -7,7 +7,7 @@ import java.util.ResourceBundle;
 
 import javax.swing.JOptionPane;
 
-import baseDatos.ProductoDao;
+import baseDatos.ProductoDaoImp;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -67,6 +67,8 @@ public class GestionProductosController implements Initializable {
     private Button btnModificar;
     @FXML
     private Button btnEliminar;
+    @FXML
+    private Button btnActualizar;
 
     /**
      * Initializes the controller class.
@@ -78,7 +80,6 @@ public class GestionProductosController implements Initializable {
 
     }
 
-    @FXML
     private void regresarPrincipal(ActionEvent event) {
 	Node source = (Node) event.getSource();
 	Stage stage = (Stage) source.getScene().getWindow();
@@ -106,7 +107,7 @@ public class GestionProductosController implements Initializable {
 
     @FXML
     private void eliminarProducto(ActionEvent event) {
-	ProductoDao productoDao = new ProductoDao();
+	ProductoDaoImp productoDao = new ProductoDaoImp();
 	String nombre = nombreProducto.getText();
 	String confirmacion = String.format("Estas seguro de eliminar el producto?", nombre);
         int respuesta = JOptionPane.showConfirmDialog(null, confirmacion,
@@ -119,11 +120,10 @@ public class GestionProductosController implements Initializable {
 	    cancelarAccion(event);
 	}
 	
-	
     }
 
     public void inicializarTablaProductos() {
-	ProductoDao productoDao = new ProductoDao();
+	ProductoDaoImp productoDao = new ProductoDaoImp();
 
 	try {
 	    // observableList con un la lista de productos que devuelve productoDao
@@ -144,7 +144,7 @@ public class GestionProductosController implements Initializable {
 
     @FXML
     private void buscarProducto(ActionEvent event) {
-	ProductoDao productoDao = new ProductoDao();
+	ProductoDaoImp productoDao = new ProductoDaoImp();
 	if (txtBuscarProducto.getText().length() != 0) {
 
 	    Producto producto = productoDao.buscarProducto(txtBuscarProducto.getText());
@@ -193,6 +193,43 @@ public class GestionProductosController implements Initializable {
 	btnEliminar.setDisable(false);
 	btnModificar.setDisable(false);
 
+    }
+
+    @FXML
+    private void actualizarTabla(ActionEvent event) {
+        inicializarTablaProductos();
+    }
+
+    @FXML
+    private void salirAplicacion(ActionEvent event) {
+         System.exit(0);
+    }
+
+    @FXML
+    private void cerrarGestionProductos(ActionEvent event) {
+        regresarPrincipal(event);
+    }
+
+    @FXML
+    private void CerrarSesesionGestion(ActionEvent event) {
+        
+        // logout
+    }
+
+    @FXML
+    private void mensajeAyuda(ActionEvent event) {
+        String ayuda="En gestion de productos puedes realizar lo siguiente:" + "\n"
+                + "1- Observar la lista de los productos registrados. " + "\n"
+                + "2- Buscar algun producto por su nombre, escribe el nombre del producto y oprime el boton buscar.\n"
+                + "3- Registrar un nuevo producto, oprime el boton registrar producto. \n" 
+                + "4- Eliminar un producto, selecciona en la tabla o busca el producto que deseas eliminar y oprime "
+                + "el boton de eliminar. \n"
+                +"5- Modificar algún producto, selecciona o busca el producto a modificar cambia los datos y oprime el boton "
+                + "modificar.";
+            Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+	    alerta.setTitle("Gestion Productos");
+	    alerta.setContentText(ayuda);
+	    alerta.showAndWait();
     }
 
 }

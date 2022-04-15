@@ -1,7 +1,7 @@
 
 package controlador;
 
-import baseDatos.ProductoDao;
+import baseDatos.ProductoDaoImp;
 import java.net.URL;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
@@ -70,7 +70,7 @@ public class RegistroProductoController implements Initializable {
   private void guardarProducto(ActionEvent event) throws SQLException {
 
     Producto producto = new Producto();
-    ProductoDao productoDao = new ProductoDao();
+    ProductoDaoImp productoDao = new ProductoDaoImp();
     boolean productoAgregado = false;    
     Alert alerta = new Alert(Alert.AlertType.INFORMATION);
     alerta.setTitle("Producto");

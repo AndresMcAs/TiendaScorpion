@@ -89,17 +89,21 @@
                   </AnchorPane>
               </items>
             </SplitPane>
-            <Button layoutX="20.0" layoutY="27.0" mnemonicParsing="false" onAction="#regresarPrincipal" prefHeight="30.0" prefWidth="95.0" text="Regresar" />
             <Label layoutX="358.0" layoutY="17.0" text="Productos">
                <font>
                   <Font name="Modern No. 20" size="47.0" />
                </font>
                <textFill>
-                  <LinearGradient endX="1.0" endY="1.0" startX="1.0" startY="0.8388625592417062">
+                  <LinearGradient endX="1.0" endY="1.0" startX="1.0" startY="0.14218009478672988">
                      <stops>
                         <Stop>
                            <color>
                               <Color red="0.07523148506879807" green="0.5432505011558533" blue="0.8552631735801697" />
+                           </color>
+                        </Stop>
+                        <Stop offset="0.5440613026819922">
+                           <color>
+                              <Color red="0.5394737124443054" green="0.23477095365524292" blue="0.23477095365524292" />
                            </color>
                         </Stop>
                         <Stop offset="1.0">
@@ -111,30 +115,31 @@
                   </LinearGradient>
                </textFill>
             </Label>
+            <Button fx:id="btnActualizar" layoutX="673.0" layoutY="30.0" mnemonicParsing="false" onAction="#actualizarTabla" prefHeight="25.0" prefWidth="66.0" text="Atualizar" />
          </children>
       </Pane>
       <MenuBar layoutY="2.0" prefHeight="25.0" prefWidth="973.0">
         <menus>
-          <Menu mnemonicParsing="false" text="File">
+          <Menu mnemonicParsing="false" text="Archivo">
             <items>
-              <MenuItem mnemonicParsing="false" text="Close" />
+              <MenuItem mnemonicParsing="false" onAction="#salirAplicacion" text="Cerrar" />
             </items>
           </Menu>
-          <Menu mnemonicParsing="false" text="Edit">
+          <Menu mnemonicParsing="false" onAction="#CerrarSesesionGestion" text="Cerrar sesión">
             <items>
-              <MenuItem mnemonicParsing="false" text="Delete" />
+              <MenuItem mnemonicParsing="false" onAction="#cerrarGestionProductos" text="Salir" />
             </items>
           </Menu>
-          <Menu mnemonicParsing="false" text="Help">
+          <Menu mnemonicParsing="false" text="Ayuda">
             <items>
-              <MenuItem mnemonicParsing="false" text="About" />
+              <MenuItem mnemonicParsing="false" onAction="#mensajeAyuda" text="Acerca de " />
             </items>
           </Menu>
         </menus>
       </MenuBar>
       <Button layoutX="771.0" layoutY="51.0" mnemonicParsing="false" onAction="#agregarProducto" prefHeight="30.0" prefWidth="210.0" text="Registrar Producto" textAlignment="CENTER">
          <font>
-            <Font name="Modern No. 20" size="19.0" />
+            <Font name="Modern No. 20" size="14.0" />
          </font>
       </Button>
    </children>

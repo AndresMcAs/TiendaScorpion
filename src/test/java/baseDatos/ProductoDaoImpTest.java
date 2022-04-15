@@ -6,54 +6,43 @@ import modelo.Producto;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
  *
  * @author HP
  */
-public class ProductoDaoTest {
+public class ProductoDaoImpTest {
     
-  public ProductoDaoTest() {
-  }
-    
-  @BeforeAll
-  public static void setUpClass() {
-  }
-    
-  @AfterAll
-  public static void tearDownClass() {
-  }
-    
-  @BeforeEach
-  public void setUp() {
-  }
-    
-  @AfterEach
-  public void tearDown() {
+  public ProductoDaoImpTest() {
   }
 
+   
   /**
   * probando conexion a la base de datos 
   */
   @Test 
   public void debeConectar() throws SQLException {
     AdminBd con = new AdminBd();
-    con.conectar();
+    con.obtenerConexion();
     assertNotNull(con);
   }
-   
+   @Disabled
   @Test
   public void debeGuardar() throws SQLException {
       Producto producto = new Producto();
-      ProductoDao productoDao = new ProductoDao();
+     ProductoDaoImp productoDao = new ProductoDaoImp();
 
       try {
-	  producto.setNombreProducto("Galleta");
+	  producto.setNombreProducto("Galletas");
 	  producto.setNumeroUnidades("20");
 	  producto.setCostoUnidad("12.50");
+	  producto.setFechaRegistro("10-04-22");
 	  producto.setDescripcion("Galletas Emperador");
 	  productoDao.agregarProducto(producto);
 
@@ -65,8 +54,8 @@ public class ProductoDaoTest {
   @Test 
   void debeBuscar() {
       Producto producto = new Producto();
-      ProductoDao productoDao = new ProductoDao();
-      producto = productoDao.buscarProducto("Galleta");
+      ProductoDaoImp productoDao = new ProductoDaoImp();
+      producto = productoDao.buscarProducto("Galletas");
       assertNotNull(producto);
       
   }

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+
+<AnchorPane id="AnchorPane" prefHeight="362.0" prefWidth="309.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17" fx:controller="controlador.LoginController">
+   <children>
+      <Pane layoutX="-35.0" layoutY="9.0" prefHeight="325.0" prefWidth="346.0">
+         <children>
+            <GridPane layoutX="82.0" layoutY="109.0" prefHeight="132.0" prefWidth="199.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <TextField fx:id="txtFCorreo" prefHeight="26.0" prefWidth="199.0" GridPane.rowIndex="1" />
+                  <PasswordField fx:id="txtFcontrasenia" GridPane.rowIndex="3" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Correo" wrappingWidth="61.97395706176758" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Contraseña " wrappingWidth="91.97395706176758" GridPane.rowIndex="2" />
+               </children>
+            </GridPane>
+            <Text layoutX="83.0" layoutY="59.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Inicia sesión">
+               <font>
+                  <Font name="Bookman Old Style Bold Italic" size="32.0" />
+               </font>
+            </Text>
+            <Button fx:id="btnIniciarSesion" layoutX="83.0" layoutY="272.0" mnemonicParsing="false" onAction="#iniciarSesion" prefHeight="30.0" prefWidth="66.0" text="Iniciar" />
+         </children>
+      </Pane>
+      <Text layoutX="-208.0" layoutY="93.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+   </children>
+</AnchorPane>
