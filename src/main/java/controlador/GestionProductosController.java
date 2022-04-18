@@ -207,13 +207,16 @@ public class GestionProductosController implements Initializable {
 
     @FXML
     private void cerrarGestionProductos(ActionEvent event) {
-        regresarPrincipal(event);
+	Node source = (Node) event.getSource();
+	Stage stage = (Stage) source.getScene().getWindow();
+	stage.close();
     }
 
     @FXML
     private void CerrarSesesionGestion(ActionEvent event) {
         
         // logout
+	
     }
 
     @FXML

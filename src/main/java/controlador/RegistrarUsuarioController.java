@@ -50,6 +50,12 @@ public class RegistrarUsuarioController implements Initializable {
 
     @FXML
     private void cancelarRegistro(ActionEvent event) {
+	
+	txtFapellidoMat.setText("");
+	txtFapellidoPat.setText("");
+	txtFNombre.setText("");
+	txtFcorreo.setText("");
+	txtPassword.setText("");
     }
 
     @FXML
@@ -60,20 +66,32 @@ public class RegistrarUsuarioController implements Initializable {
         UsuarioDaoImp usuarioDao = new UsuarioDaoImp();
         Alert alerta = new Alert(Alert.AlertType.INFORMATION);
         alerta.setTitle("Producto");
+       try { 
+       if(txtFNombre.getText().length() != 0 && txtFcorreo.getText().length() != 0 && 
+	  txtFapellidoPat.getText().length() !=0  && txtPassword.getText().length() != 0) {
         
-        usuario.setNombre(txtFNombre.getText());
+	usuario.setNombre(txtFNombre.getText());
         usuario.setApellidoPat(txtFapellidoPat.getText());
         usuario.setApellidoMat(txtFapellidoMat.getText());
         usuario.setCorreo(txtFcorreo.getText());
         usuario.setContrasenia(txtPassword.getText());
-        usuario.setRol("ADMIN");
+        usuario.setRol("VENDEDOR");
         usuarioGuardado = usuarioDao.registrarUsuario(usuario);
         if (usuarioGuardado != null) {
-            
+
 	    alerta.setContentText("Registro Exitoso! bien venido " + usuario.getNombre());
 	    alerta.showAndWait();
 	    salirRegistro(event);
-        }
+	}
+    } else {
+	alerta.setContentText("Ingresa los campos obligatorios");
+	alerta.showAndWait();
+    }
+       } catch(AplicacionExcepcion e) {
+	   
+	   alerta.setContentText(e.getMessage());
+	      alerta.showAndWait();
+       }
     }
 
     @FXML
