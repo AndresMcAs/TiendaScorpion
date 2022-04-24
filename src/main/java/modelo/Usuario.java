@@ -51,6 +51,66 @@ public class Usuario  {
       }
   }
 
+public Long getId() {
+	return id;
+}
+
+public void setId(Long id) {
+	this.id = id;
+}
+
+public String getApellidoPat() {
+	return apellidoPat;
+}
+
+public void setApellidoPat(String apellidoPat) {
+	this.apellidoPat = apellidoPat;
+}
+
+public String getApellidoMat() {
+	return apellidoMat;
+}
+
+public void setApellidoMat(String apellidoMat) {
+	this.apellidoMat = apellidoMat;
+}
+
+public String getCorreo() {
+	return correo;
+}
+
+public void setCorreo(String correo) {
+	this.correo = correo;
+}
+
+public String getContrasenia() {
+	return contrasenia;
+}
+
+public void setContrasenia(String contrasenia) {
+	this.contrasenia = contrasenia;
+}
+
+public String getRol() {
+	return rol;
+}
+
+public void setRol(String rol) {
+	this.rol = rol;
+}
+
+public ValidarDatosImp getValidar() {
+	return validar;
+}
+
+public void setValidar(ValidarDatosImp validar) {
+	this.validar = validar;
+}
+
+public String getNombre() {
+	return nombre;
+}
+
  
 
 }

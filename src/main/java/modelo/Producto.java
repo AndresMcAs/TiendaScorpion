@@ -76,6 +76,56 @@ public class Producto {
 	    	+ "el campo costo: (0.00)");
 	}
     }
+
+	public String getDescripcion() {
+		return descripcion;
+	}
+
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
+	}
+
+	public String getImagen() {
+		return imagen;
+	}
+
+	public void setImagen(String imagen) {
+		this.imagen = imagen;
+	}
+
+	public String getFechaRegistro() {
+		return fechaRegistro;
+	}
+
+	public void setFechaRegistro(String fechaRegistro) {
+		this.fechaRegistro = fechaRegistro;
+	}
+
+	public int getNumeroUnidades() {
+		return numeroUnidades;
+	}
+
+	public void setNumeroUnidades(int numeroUnidades) {
+		this.numeroUnidades = numeroUnidades;
+	}
+
+	public double getCostoUnidad() {
+		return costoUnidad;
+	}
+
+	public void setCostoUnidad(double costoUnidad) {
+		this.costoUnidad = costoUnidad;
+	}
+
+	public long getIdProducto() {
+		return idProducto;
+	}
+
+	public String getNombreProducto() {
+		return nombreProducto;
+	}
+    
+    
   
 
 }

@@ -86,7 +86,7 @@
                                     <Image url="@imagenes/producos.jpg" />
                                  </image>
                               </ImageView>
-                              <Button fx:id="btnGestionProductos" layoutX="29.0" layoutY="54.0" mnemonicParsing="false" onAction="#gestionProductos" prefHeight="33.0" prefWidth="180.0" text="Gestion de Productos " textAlignment="CENTER" wrapText="true">
+                              <Button fx:id="btnGestionProductos" layoutX="29.0" layoutY="54.0" mnemonicParsing="false" onAction="#gestionProductos" prefHeight="39.0" prefWidth="234.0" text="Gestion de Productos " textAlignment="CENTER" wrapText="true">
                                  <font>
                                     <Font name="Modern No. 20" size="18.0" />
                                  </font>
