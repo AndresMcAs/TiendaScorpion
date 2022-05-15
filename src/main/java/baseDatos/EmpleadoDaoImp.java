@@ -6,40 +6,39 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import javafx.scene.control.Alert;
-import modelo.AplicacionExcepcion;
+import modelo.Empleado;
+import modelo.excepciones.AplicacionExcepcion;
 
-import modelo.Usuario;
-
-public class UsuarioDaoImp implements UsuarioDao {
+public class EmpleadoDaoImp implements EmpleadoDao {
     private AdminBd admin;
     private Connection conexion;
     private boolean conexionTransferida;
     private Statement stm;
     private Alert alerta = new Alert(Alert.AlertType.INFORMATION);
     
-    public UsuarioDaoImp() {
+    public EmpleadoDaoImp() {
 	admin = new AdminBd();
 	conexion = null;
     }
 
-    public UsuarioDaoImp(Connection conexion) {
+    public EmpleadoDaoImp(Connection conexion) {
 	this.conexion = conexion;
 	this.conexionTransferida = true;
 
     }
 
     @Override
-    public Usuario obtenerUsuarioPorCorreoYContrasenia(String correo, String contrasenia) {
+    public Empleado obtenerUsuarioPorCorreoYContrasenia(String correo, String contrasenia) {
 
-	Usuario usuarioHallado;
+	Empleado usuarioHallado;
 
 	ResultSet usuarioSet;
 
 	try {
-	    conexion = admin.obtenerConexion();
+	    conexion = admin.conectar();
 	    stm = conexion.createStatement();
 	    usuarioSet = stm.executeQuery(
-		    "select * from usuarios where correo='" + correo + "' and contrasenia='" + contrasenia + "'");
+		    "select * from empleados where correo='" + correo + "' and contrasenia='" + contrasenia + "'");
 	    if (!usuarioSet.next()) {
 
 	
@@ -50,14 +49,14 @@ public class UsuarioDaoImp implements UsuarioDao {
 		String nombre = usuarioSet.getString("nombre");
 		String apellidoPat = usuarioSet.getString("apellidopat");
 		String apellidoMat = usuarioSet.getString("apellidomat");
-		String rol = usuarioSet.getString("rol");
+		String puesto = usuarioSet.getString("puesto");
 
-		usuarioHallado = new Usuario(nombre, apellidoPat, apellidoMat, rol);
+		usuarioHallado = new Empleado(nombre, apellidoPat, apellidoMat, puesto);
 		return usuarioHallado;
 	    }
 	} catch (SQLException e) {
 
-	    alerta.setTitle("Usuario");
+	    alerta.setTitle("Empleado");
 	    alerta.setContentText("Error al consultar la BD" + "\n" + e.getMessage());
 	    alerta.showAndWait();
 	    return null;
@@ -66,32 +65,32 @@ public class UsuarioDaoImp implements UsuarioDao {
     }
 
     @Override
-    public Usuario registrarUsuario(Usuario usuario) throws AplicacionExcepcion {
+    public Empleado registrarEmpleado(Empleado empleado) throws AplicacionExcepcion {
 	int resultInsert = 0;
 	String sql;
 	PreparedStatement ps = null;
 
 	if (conexionTransferida == false) {
-	    conexion = admin.obtenerConexion();
+	    conexion = admin.conectar();
 	}
 	try {
 
-	    sql = "insert into usuarios (nombre,apellidopat, apellidomat, correo,contrasenia,rol)"
+	    sql = "insert into empleados (nombre,apellidopat, apellidomat, correo,contrasenia,puesto)"
 		    + "values(?, ?, ?, ?, ?, ?)";
 
 	    ps = conexion.prepareStatement(sql);
-	    ps.setString(1, usuario.getNombre());
-	    ps.setString(2, usuario.getApellidoPat());
-	    ps.setString(3, usuario.getApellidoMat());
-	    ps.setString(4, usuario.getCorreo());
-	    ps.setString(5, usuario.getContrasenia());
-	    ps.setString(6, usuario.getRol());
-
+	    ps.setString(1, empleado.getNombre());
+	    ps.setString(2, empleado.getApellidoPat());
+	    ps.setString(3, empleado.getApellidoMat());
+	    ps.setString(4, empleado.getCorreo());
+	    ps.setString(5, empleado.getContrasenia());
+	    ps.setString(6, empleado.getPuesto());
+       System.out.println("empleado");
 	    resultInsert = ps.executeUpdate();
 
 	    if (resultInsert != 0) {
 		conexion.close();
-		return usuario;
+		return empleado;
 
 	    } else {
 		conexion.close();
@@ -99,8 +98,8 @@ public class UsuarioDaoImp implements UsuarioDao {
 	    }
 	} catch (SQLException e) {
 
-	    alerta.setTitle("Usuario");
-	    alerta.setContentText("Error no se inserto el Usuario:" + usuario.getNombre() + "\n" + e.getMessage());
+	    alerta.setTitle("Empleado");
+	    alerta.setContentText("Error no se inserto el Empleado:" + empleado.getNombre() + "\n" + e.getMessage());
 	    alerta.showAndWait();
 	    return null;
 	}

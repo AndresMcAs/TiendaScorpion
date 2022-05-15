@@ -93,7 +93,7 @@
             </GridPane>
             <Label layoutX="47.0" layoutY="109.0" text="Obligatorio *" />
             <Button layoutX="47.0" layoutY="33.0" mnemonicParsing="false" onAction="#regresarGestionProductos" text="Regresar" />
-            <TextField fx:id="fechaRegistro" editable="false" layoutX="623.0" layoutY="20.0" prefHeight="26.0" prefWidth="91.0" />
+            <TextField fx:id="fechaRegistro" disable="true" editable="false" layoutX="623.0" layoutY="20.0" prefHeight="26.0" prefWidth="91.0" />
          </children>
       </Pane>
       <MenuBar layoutY="2.0" prefHeight="30.0" prefWidth="750.0">

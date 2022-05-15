@@ -39,10 +39,16 @@ public class PrincipalController implements Initializable {
   /**
   * realiza el proceso de ventas de los productos 
   * @param event 
+ * @throws IOException 
   */
   @FXML
-  private void ventas(ActionEvent event) {
-
+  private void ventas(ActionEvent event) throws IOException {
+	 
+	    Scene scene = new Scene(loadFXML("/vista/VentaDeProductos"));
+	    Stage secundaryStage = new Stage();
+	    secundaryStage.setScene(scene);
+	    secundaryStage.initModality(Modality.APPLICATION_MODAL);
+	    secundaryStage.show();
   }
     
   /**

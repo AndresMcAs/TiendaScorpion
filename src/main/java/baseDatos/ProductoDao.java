@@ -3,8 +3,8 @@ package baseDatos;
 import java.sql.SQLException;
 
 import javafx.collections.ObservableList;
-import modelo.ExcepcionProducto;
 import modelo.Producto;
+import modelo.excepciones.ExcepcionProducto;
 
 public interface ProductoDao {
 

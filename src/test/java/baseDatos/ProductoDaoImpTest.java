@@ -1,8 +1,10 @@
 package baseDatos;
 
 import java.sql.SQLException;
-import modelo.ExcepcionProducto;
+
 import modelo.Producto;
+import modelo.excepciones.ExcepcionProducto;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,11 +30,15 @@ public class ProductoDaoImpTest {
   */
   @Test 
   public void debeConectar() throws SQLException {
+	System.out.println("entrando a la base de datos");
     AdminBd con = new AdminBd();
-    con.obtenerConexion();
+    con.conectar();
+    if (con != null)
+    System.out.println("conexion establesida"+ con);
     assertNotNull(con);
   }
-   @Disabled
+   
+  
   @Test
   public void debeGuardar() throws SQLException {
       Producto producto = new Producto();
@@ -40,8 +46,6 @@ public class ProductoDaoImpTest {
 
       try {
 	  producto.setNombreProducto("Galletas");
-	  producto.setNumeroUnidades("20");
-	  producto.setCostoUnidad("12.50");
 	  producto.setFechaRegistro("10-04-22");
 	  producto.setDescripcion("Galletas Emperador");
 	  productoDao.agregarProducto(producto);
@@ -50,7 +54,7 @@ public class ProductoDaoImpTest {
 	  System.out.println("" + e.getMessage());
       }
   }
- 
+  @Disabled
   @Test 
   void debeBuscar() {
       Producto producto = new Producto();

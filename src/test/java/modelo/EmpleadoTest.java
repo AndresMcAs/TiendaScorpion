@@ -4,13 +4,14 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import baseDatos.UsuarioDaoImp;
+import baseDatos.EmpleadoDaoImp;
+import modelo.excepciones.AplicacionExcepcion;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-public class UsuarioTest {
+public class EmpleadoTest {
 
-  public UsuarioTest() {}
+  public EmpleadoTest() {}
     
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -20,14 +21,14 @@ public class UsuarioTest {
 	public void debeGuardarUsuario() throws AplicacionExcepcion {
 	System.out.println("Entrando a debeGuardarUsuario");
 		
-	       UsuarioDaoImp usuarioDao = new UsuarioDaoImp();
-		Usuario usuario = null;
+	       EmpleadoDaoImp usuarioDao = new EmpleadoDaoImp();
+		Empleado usuario = null;
 	
-		usuario = new Usuario("Andres", "Mendoza","Contreras","andres@uacm.edu.mx","1234","ADMIN");
-		Usuario usuarioGuardado = usuarioDao.registrarUsuario(usuario);
+		usuario = new Empleado("Andres", "Mendoza","Contreras","andres@uacm.edu.mx","1234","ADMIN");
+		Empleado usuarioGuardado = usuarioDao.registrarEmpleado(usuario);
 		
 		assertNotNull(usuarioGuardado);
-		assertNotNull(usuarioGuardado.getId());
+		
 	}
     
 }

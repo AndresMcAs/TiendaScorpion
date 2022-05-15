@@ -116,6 +116,12 @@
                </textFill>
             </Label>
             <Button fx:id="btnActualizar" layoutX="673.0" layoutY="30.0" mnemonicParsing="false" onAction="#actualizarTabla" prefHeight="25.0" prefWidth="66.0" text="Atualizar" />
+            <Label layoutX="36.0" layoutY="22.0" prefHeight="17.0" prefWidth="95.0" text="Usuario:" />
+            <TextField fx:id="txtf" disable="true" layoutX="84.0" layoutY="18.0" prefHeight="25.0" prefWidth="188.0">
+               <font>
+                  <Font name="Modern No. 20" size="13.0" />
+               </font>
+            </TextField>
          </children>
       </Pane>
       <MenuBar layoutY="2.0" prefHeight="25.0" prefWidth="973.0">

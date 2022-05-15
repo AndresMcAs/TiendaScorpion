@@ -8,7 +8,7 @@ package controlador;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import baseDatos.UsuarioDaoImp;
+import baseDatos.EmpleadoDaoImp;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -21,7 +21,8 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import modelo.Usuario;
+import modelo.Administrador;
+import modelo.Empleado;
 
 /**
  * FXML Controller class
@@ -37,9 +38,11 @@ public class LoginController implements Initializable {
     @FXML
     private Button btnIniciarSesion;
     
+     FXMLLoader fxmlLoader;
     
-    
-    /**
+  
+
+	/**
      * Initializes the controller class.
      */
     @Override
@@ -49,44 +52,65 @@ public class LoginController implements Initializable {
 
     @FXML
     private void iniciarSesion(ActionEvent event) throws IOException {
-	
 
-	UsuarioDaoImp usuarioDao = new UsuarioDaoImp();
-	Usuario usuario = usuarioDao.obtenerUsuarioPorCorreoYContrasenia(txtFCorreo.getText(),
-		txtFcontrasenia.getText());
+		EmpleadoDaoImp usuarioDao = new EmpleadoDaoImp();
+		Empleado usuario = usuarioDao.obtenerUsuarioPorCorreoYContrasenia(txtFCorreo.getText(),
+				txtFcontrasenia.getText());
 
-	if (usuario != null) {
+		if (usuario != null) {
+			Scene scene;
+			Stage secundaryStage;
+			
+			switch (usuario.getPuesto()) {
 
-	    if (usuario.getRol().equals("ADMIN")) {
-		Scene scene = new Scene(loadFXML("/vista/gestionProductos"));
-		Stage secundaryStage = new Stage();
-		secundaryStage.setScene(scene);
-		secundaryStage.initModality(Modality.APPLICATION_MODAL);
-		secundaryStage.show();
-		limpiar();
+			case "ADMIN":
+				scene = new Scene(loadFXML("/vista/gestionProductos"));
+				// pasamos el nombre del empleado que acceso al sistema
+				GestionProductosController controlProducto = fxmlLoader.getController();
+				controlProducto.setNombreEmp(usuario.getNombre() + " " + usuario.getApellidoPat());
+				secundaryStage = new Stage();
+				secundaryStage.setScene(scene);
+				secundaryStage.initModality(Modality.APPLICATION_MODAL);
+				secundaryStage.show();
+				  
+				limpiar();
+				break;
 
-	    } else {
-		Alert alerta = new Alert(Alert.AlertType.ERROR);
-		alerta.setTitle("Inicio Sesion");
-		alerta.setContentText("Funcionalidad no permitida");
-		alerta.showAndWait();
-		limpiar();
-		
-		
-	    }
-	} else {
-	    Alert alerta = new Alert(Alert.AlertType.WARNING);
-	    alerta.setTitle("Inicio Sesion");
-	    alerta.setContentText("Usuario / Contraseña no validos");
-	    alerta.showAndWait();
-	    limpiar();
+			case "VENDEDOR":
+				
+				scene = new Scene(loadFXML("/vista/VentaDeProductos"));
 
-	}
+				secundaryStage = new Stage();
+				secundaryStage.setScene(scene);
+				secundaryStage.initModality(Modality.WINDOW_MODAL);
+				secundaryStage.show();
+				limpiar();
+				break;
+			case "GERENTE":
+				break;
+			default:
+				Alert alerta = new Alert(Alert.AlertType.ERROR);
+				alerta.setTitle("Inicio Sesion");
+				alerta.setContentText("Funcionalidad no permitida");
+				alerta.showAndWait();
+				limpiar();
+				break;
+
+			}
+
+		} else {
+			Alert alerta = new Alert(Alert.AlertType.WARNING);
+			alerta.setTitle("Inicio Sesion");
+			alerta.setContentText("Usuario / Contraseña no validos");
+			alerta.showAndWait();
+			limpiar();
+
+		}
 	  
     }
     
-    private static Parent loadFXML(String fxml) throws IOException {
-   	FXMLLoader fxmlLoader = new FXMLLoader(Tienda.class.getResource(fxml + ".fxml"));
+    private  Parent loadFXML(String fxml) throws IOException {
+    fxmlLoader = new FXMLLoader(Tienda.class.getResource(fxml + ".fxml"));
    	return fxmlLoader.load();
        }
     
