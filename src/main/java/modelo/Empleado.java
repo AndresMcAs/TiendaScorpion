@@ -1,6 +1,5 @@
 package modelo;
 
-import lombok.Data;
 import modelo.excepciones.AplicacionExcepcion;
 
 /**
@@ -9,7 +8,6 @@ import modelo.excepciones.AplicacionExcepcion;
  *
  */
 
-@Data
 public class Empleado  {
 
 	protected String nombre;
@@ -18,7 +16,7 @@ public class Empleado  {
 	private String correo;
 	private String contrasenia;
 	protected String puesto;
-	private ValidarDatosImp validar = new ValidarDatosImp();
+	private ValidarDatos validar = new ValidarDatosImp();
 
 	public Empleado() {
 

@@ -16,7 +16,7 @@ import modelo.excepciones.ExcepcionProducto;
  *
  * @author HP
  */
-public class ProductoDaoImp implements ProductoDao{
+public class ProductoDaoImp implements ProductoDao {
 	private AdminBd admin;
 	private Connection conexion;
 	private boolean conexionTransferida;
@@ -53,8 +53,7 @@ public class ProductoDaoImp implements ProductoDao{
 		}
 		try {
 
-			sql = "insert into productos (nombre, unidades, costo, descripcion,fecha)" 
-			+ "values(?, ?, ?, ?, ?)";
+			sql = "insert into productos (nombre, unidades, costo, descripcion,fecha)" + "values(?, ?, ?, ?, ?)";
 
 			ps = conexion.prepareStatement(sql);
 			ps.setString(1, producto.getNombreProducto());
@@ -67,21 +66,22 @@ public class ProductoDaoImp implements ProductoDao{
 			resultInsert = ps.executeUpdate();
 
 			if (resultInsert != 0) {
-				conexion.close();
+
 				return true;
 
 			} else {
-				conexion.close();
+
 				return false;
 			}
 		} catch (SQLException e) {
 
 			alerta.setTitle("Producto");
 			alerta.setContentText(
-					"Error no se inserto el producto:" + producto.getNombreProducto() +
-					"\n" + e.getMessage());
+					"Error no se inserto el producto:" + producto.getNombreProducto() + "\n" + e.getMessage());
 			alerta.showAndWait();
 			return false;
+		} finally {
+			conexion.close();
 		}
 
 	}
@@ -112,14 +112,23 @@ public class ProductoDaoImp implements ProductoDao{
 			}
 			rs.close();
 			ps.close();
-			conexion.close();
+
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			try {
+				conexion.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 
 		return lista;
 	}
-
+    /**
+     * Busca un producto Por su nombre 
+     */
 	@Override
 	public Producto buscarProducto(String nombre) {
 
@@ -130,14 +139,13 @@ public class ProductoDaoImp implements ProductoDao{
 		try {
 			conexion = admin.conectar();
 			stm = conexion.createStatement();
-			productoSet = stm.executeQuery("select * from productos where nombre= " +
-			                               "'" + nombre.trim() + "'");
+			productoSet = stm.executeQuery("select * from productos where nombre= " + "'" + nombre.trim() + "'");
 			if (!productoSet.next()) {
 
 				alerta.setTitle("Producto");
 				alerta.setContentText("Producto no encontrado");
 				alerta.showAndWait();
-				conexion.close();
+
 				return null;
 			} else {
 
@@ -151,14 +159,21 @@ public class ProductoDaoImp implements ProductoDao{
 			}
 		} catch (SQLException e) {
 			alerta.setTitle("Producto");
-			alerta.setContentText("Error al consultar la base de datos" + 
-			                      "\n" + e.getMessage());
+			alerta.setContentText("Error al consultar la base de datos" + "\n" + e.getMessage());
 			alerta.showAndWait();
 			return null;
+		} finally {
+			try {
+				conexion.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 
 	}
-
+    
+	
 	@Override
 	public int borrarPorNombre(String nombre) {
 		int result = 0;
@@ -178,19 +193,28 @@ public class ProductoDaoImp implements ProductoDao{
 			e.printStackTrace();
 
 			alerta.setTitle("Producto");
-			alerta.setContentText("Error no se borro el producto:" +
-			                       nombre + "\n" + e.getMessage());
+			alerta.setContentText("Error no se borro el producto:" + nombre + "\n" + e.getMessage());
 			alerta.showAndWait();
+		} finally {
+			try {
+				conexion.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		return result;
 	}
 
+    /**
+     * Modifica los atributos del algun producto
+     */
 	@Override
 	public void modificarProducto(Producto producto) {
 
 		try {
-			String sql = "UPDATE productos set nombre = ? , unidades=?, costo = ?, " +
-					     "descripcion=? where id_producto= ?";
+			String sql = "UPDATE productos set nombre = ? , unidades=?, costo = ?, "
+					+ "descripcion=? where id_producto= ?";
 			conexion = admin.conectar();
 			PreparedStatement stmt = conexion.prepareStatement(sql);
 			stmt.setString(1, producto.getNombreProducto());
@@ -206,15 +230,52 @@ public class ProductoDaoImp implements ProductoDao{
 
 			stmt.close();
 
-			System.out.println(producto.getIdProducto());
 		} catch (SQLException e) {
 
 			e.printStackTrace();
 			alerta.setTitle("Producto");
 			alerta.setContentText(
-					"Error no se modifico el producto:" + producto.getNombreProducto() +
-					"\n" + e.getMessage());
+					"Error no se modifico el producto:" + producto.getNombreProducto() + "\n" + e.getMessage());
 			alerta.showAndWait();
+		} finally {
+			try {
+				conexion.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
+	}
+
+	// verificar la cantidad de produtos del mismos tipo
+	@Override
+	public void modificarProductoExistencias(Producto producto, int cantidad) {
+		try {
+			String sql = "UPDATE productos set  unidades=?  where nombre= ?";
+			conexion = admin.conectar();
+			PreparedStatement stmt = conexion.prepareStatement(sql);
+			int descuentaUnidades = producto.getNumeroUnidades() - cantidad;
+			stmt.setInt(1, descuentaUnidades);
+			stmt.setString(2, producto.getNombreProducto());
+			stmt.executeUpdate();
+			stmt.close();
+
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+
+			alerta.setTitle("Producto");
+			alerta.setContentText(
+					"Error no se modifico el producto:" + producto.getNombreProducto() + "\n" + e.getMessage());
+			alerta.showAndWait();
+
+		} finally {
+			try {
+				conexion.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 
 	}

@@ -7,6 +7,7 @@ package controlador;
 
 import modelo.Empleado;
 import modelo.excepciones.AplicacionExcepcion;
+import baseDatos.EmpleadoDao;
 import baseDatos.EmpleadoDaoImp;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -28,87 +29,87 @@ import javafx.stage.Stage;
  */
 public class RegistrarUsuarioController implements Initializable {
 
-    @FXML
-    private TextField txtFNombre;
-    @FXML
-    private TextField txtFapellidoPat;
-    @FXML
-    private TextField txtFapellidoMat;
-    @FXML
-    private TextField txtFcorreo;
-    @FXML
-    private Text txtPcontrasenia;
-    @FXML
-    private PasswordField txtPassword;
-    @FXML
-    private ComboBox<String> comboPuesto;
-    @FXML
-    private Text txtPcontrasenia1;
+	@FXML
+	private TextField txtFNombre;
+	@FXML
+	private TextField txtFapellidoPat;
+	@FXML
+	private TextField txtFapellidoMat;
+	@FXML
+	private TextField txtFcorreo;
+	@FXML
+	private Text txtPcontrasenia;
+	@FXML
+	private PasswordField txtPassword;
+	@FXML
+	private ComboBox<String> comboPuesto;
+	@FXML
+	private Text txtPcontrasenia1;
 
-    /**
-     * Initializes the controller class.
-     */
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        comboPuesto.getItems().add("ADMIN");
-        comboPuesto.getItems().add("VENDEDOR");
-        comboPuesto.getItems().add("GERENTE");
-     
-    }    
+	/**
+	 * Initializes the controller class.
+	 */
+	@Override
+	public void initialize(URL url, ResourceBundle rb) {
+		comboPuesto.getItems().add("ADMIN");
+		comboPuesto.getItems().add("CAJERO");
+		comboPuesto.getItems().add("GERENTE");
 
-    @FXML
-    private void cancelarRegistro(ActionEvent event) {
-	
-	txtFapellidoMat.setText("");
-	txtFapellidoPat.setText("");
-	txtFNombre.setText("");
-	txtFcorreo.setText("");
-	txtPassword.setText("");
-	
-    }
-
-    @FXML
-    private void RegistrarUsuario(ActionEvent event) throws AplicacionExcepcion {
-        
-        Empleado usuario = new Empleado();
-        Empleado usuarioGuardado = new Empleado();
-        EmpleadoDaoImp usuarioDao = new EmpleadoDaoImp();
-        Alert alerta = new Alert(Alert.AlertType.INFORMATION);
-        alerta.setTitle("Producto");
-       try { 
-       if(txtFNombre.getText().length() != 0 && txtFcorreo.getText().length() != 0 && 
-	      txtFapellidoPat.getText().length() !=0  && txtPassword.getText().length() != 0 &&
-	      !comboPuesto.getSelectionModel().isEmpty()) {
-        
-	usuario.setNombre(txtFNombre.getText());
-        usuario.setApellidoPat(txtFapellidoPat.getText());
-        usuario.setApellidoMat(txtFapellidoMat.getText());
-        usuario.setCorreo(txtFcorreo.getText());
-        usuario.setContrasenia(txtPassword.getText());
-        usuario.setPuesto(comboPuesto.getSelectionModel().getSelectedItem());
-        usuarioGuardado = usuarioDao.registrarEmpleado(usuario);
-        if (usuarioGuardado != null) {
-
-	    alerta.setContentText("Registro Exitoso! bien venido " + usuario.getNombre());
-	    alerta.showAndWait();
-	    salirRegistro(event);
 	}
-    } else {
-	alerta.setContentText("Ingresa los campos obligatorios");
-	alerta.showAndWait();
-    }
-       } catch(AplicacionExcepcion e) {
-	   
-	   alerta.setContentText(e.getMessage());
-	      alerta.showAndWait();
-       }
-    }
 
-    @FXML
-    private void salirRegistro(ActionEvent event) {
-	Node source = (Node) event.getSource();
-	Stage stage = (Stage) source.getScene().getWindow();
-	stage.close();
-    }
-    
+	@FXML
+	private void cancelarRegistro(ActionEvent event) {
+
+		txtFapellidoMat.setText("");
+		txtFapellidoPat.setText("");
+		txtFNombre.setText("");
+		txtFcorreo.setText("");
+		txtPassword.setText("");
+
+	}
+
+	@FXML
+	private void RegistrarUsuario(ActionEvent event) throws AplicacionExcepcion {
+
+		Empleado empleado = new Empleado();
+		Empleado empleadoGuardado = new Empleado();
+		EmpleadoDao empleadoDao = new EmpleadoDaoImp();
+		Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+		alerta.setTitle("Empleado");
+		try {
+			if (txtFNombre.getText().length() != 0 && txtFcorreo.getText().length() != 0
+					&& txtFapellidoPat.getText().length() != 0 && txtPassword.getText().length() != 0
+					&& !comboPuesto.getSelectionModel().isEmpty()) {
+
+				empleado.setNombre(txtFNombre.getText());
+				empleado.setApellidoPat(txtFapellidoPat.getText());
+				empleado.setApellidoMat(txtFapellidoMat.getText());
+				empleado.setCorreo(txtFcorreo.getText());
+				empleado.setContrasenia(txtPassword.getText());
+				empleado.setPuesto(comboPuesto.getSelectionModel().getSelectedItem());
+				empleadoGuardado = empleadoDao.registrarEmpleado(empleado);
+				if (empleadoGuardado != null) {
+
+					alerta.setContentText("Registro Exitoso! " + empleado.getNombre() + " bien venido");
+					alerta.showAndWait();
+					salirRegistro(event);
+				}
+			} else {
+				alerta.setContentText("Ingresa los campos obligatorios");
+				alerta.showAndWait();
+			}
+		} catch (AplicacionExcepcion e) {
+
+			alerta.setContentText(e.getMessage());
+			alerta.showAndWait();
+		}
+	}
+
+	@FXML
+	private void salirRegistro(ActionEvent event) {
+		Node source = (Node) event.getSource();
+		Stage stage = (Stage) source.getScene().getWindow();
+		stage.close();
+	}
+
 }

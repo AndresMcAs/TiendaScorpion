@@ -6,14 +6,12 @@ import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import baseDatos.ProductoDaoImp;
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -37,74 +35,57 @@ import modelo.excepciones.ExcepcionProducto;
  */
 public class GestionProductosController implements Initializable {
 
-    @FXML
-    private TableView<Producto> tablaProductos;
-    @FXML
-    private TableColumn<Producto, String> columnProducto;
-    @FXML
-    private TableColumn<Producto, Double> columnCostoUnidad;
-    @FXML
-    private TableColumn<Producto, Integer> columnUnidades;
-    @FXML
-    private TableColumn<Producto, String> columnFechaRegistro;
-    @FXML
-    private TableColumn<Producto, String> columnDescripcion;
-    @FXML
-    private TextField nombreProducto;
-    @FXML
-    private TextField costoProducto;
-    @FXML
-    private TextField unidadesProducto;
-    @FXML
-    private TextField descripcionProducto;
-    @FXML
-    private TextField txtBuscarProducto;
-    @FXML
-    private Button btnBuscarProducto;
-    @FXML
-    private Button btnCancelar;
-    ObservableList<Producto> listaProductos;
-    @FXML
-    private Button btnModificar;
-    @FXML
-    private Button btnEliminar;
-    @FXML
-    private Button btnActualizar;
-    @FXML
-    private Label txtLusuario;
-    @FXML
-    private TextField txtf;
-    
-    private long idProducto;
-    private Alert alerta = new Alert(Alert.AlertType.INFORMATION);  
-    private String nombreEmp;  //atributo para recuperar el nombre del usuario que ingreso al sistema 
-  
-	public String getNombreEmp() {
-		return nombreEmp;
-	}
+	@FXML
+	private TableView<Producto> tablaProductos;
+	@FXML
+	private TableColumn<Producto, String> columnProducto;
+	@FXML
+	private TableColumn<Producto, Double> columnCostoUnidad;
+	@FXML
+	private TableColumn<Producto, Integer> columnUnidades;
+	@FXML
+	private TableColumn<Producto, String> columnFechaRegistro;
+	@FXML
+	private TableColumn<Producto, String> columnDescripcion;
+	@FXML
+	private TextField nombreProducto;
+	@FXML
+	private TextField costoProducto;
+	@FXML
+	private TextField unidadesProducto;
+	@FXML
+	private TextField descripcionProducto;
+	@FXML
+	private TextField txtBuscarProducto;
+	@FXML
+	private Button btnBuscarProducto;
+	@FXML
+	private Button btnCancelar;
+	ObservableList<Producto> listaProductos;
+	@FXML
+	private Button btnModificar;
+	@FXML
+	private Button btnEliminar;
+	@FXML
+	private Button btnActualizar;
+	@FXML
+	private Label txtLusuario;
+	@FXML
+	private TextField txtf;
 
-	public void setNombreEmp(String nombreEmp) {
-		this.nombreEmp = nombreEmp;
-	}
+	private long idProducto;
+	private Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+
 
 	/**
-     * Initializes the controller class.
-     */
+	 * Initializes the controller class.
+	 */
 
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-	  inicializarTablaProductos();
-	  
-      Platform.runLater(()->{
-    	  txtf.setText(getNombreEmp());
-      });
-	   
-    }
+	@Override
+	public void initialize(URL url, ResourceBundle rb) {
+		inicializarTablaProductos();
 
-	private void regresarPrincipal(ActionEvent event) {
-		Node source = (Node) event.getSource();
-		Stage stage = (Stage) source.getScene().getWindow();
-		stage.close();
+
 	}
 
 	@FXML
@@ -155,25 +136,26 @@ public class GestionProductosController implements Initializable {
 
 	@FXML
 	private void eliminarProducto(ActionEvent event) {
-		
+
 		ProductoDaoImp productoDao = new ProductoDaoImp();
-		//obtenemos el nombre del producto a eliminar ya sea buscandolo o selecionando en la lista de productos 
+		// obtenemos el nombre del producto a eliminar ya sea buscandolo o selecionando
+		// en la lista de productos
 		String nombre = nombreProducto.getText();
 		String confirmacion = String.format("Estas seguro de eliminar el producto?" + nombre);
-		
+
 		Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
 		alert.setHeaderText(null);
 		alert.setTitle("Confirmación");
 		alert.setContentText(confirmacion);
 		Optional<ButtonType> action = alert.showAndWait();
-		
+
 		if (action.get() == ButtonType.OK) {
 			productoDao.borrarPorNombre(nombre);
 			cancelarAccion(event);
 		} else {
 			cancelarAccion(event);
 		}
-		
+
 	}
 
 	public void inicializarTablaProductos() {
@@ -183,12 +165,14 @@ public class GestionProductosController implements Initializable {
 			// observableList con un la lista de productos que devuelve productoDao
 			listaProductos = FXCollections.observableArrayList(productoDao.consultarProductos());
 			tablaProductos.setItems(listaProductos);
-			columnProducto.setCellValueFactory(new PropertyValueFactory<Producto, String>("nombreProducto"));
-			columnCostoUnidad.setCellValueFactory(new PropertyValueFactory<Producto, Double>("costoUnidad"));
+			this.columnProducto.setCellValueFactory(new PropertyValueFactory<Producto, String>("nombreProducto"));
+			this.columnCostoUnidad.setCellValueFactory(new PropertyValueFactory<Producto, Double>("costoUnidad") );
 			columnUnidades.setCellValueFactory(new PropertyValueFactory<Producto, Integer>("numeroUnidades"));
 			columnFechaRegistro.setCellValueFactory(new PropertyValueFactory<Producto, String>("fechaRegistro"));
 			columnDescripcion.setCellValueFactory(new PropertyValueFactory<Producto, String>("descripcion"));
 
+	
+			
 		} catch (ExcepcionProducto e) {
 			e.printStackTrace();
 		}
@@ -241,8 +225,7 @@ public class GestionProductosController implements Initializable {
 
 		nombreProducto.setText(tablaProductos.getSelectionModel().getSelectedItem().getNombreProducto());
 		costoProducto.setText(String.valueOf(tablaProductos.getSelectionModel().getSelectedItem().getCostoUnidad()));
-		unidadesProducto
-				.setText(String.valueOf(tablaProductos.getSelectionModel().getSelectedItem().getNumeroUnidades()));
+		unidadesProducto.setText(String.valueOf(tablaProductos.getSelectionModel().getSelectedItem().getNumeroUnidades()));
 		descripcionProducto.setText(tablaProductos.getSelectionModel().getSelectedItem().getDescripcion());
 		idProducto = tablaProductos.getSelectionModel().getSelectedItem().getIdProducto();
 		btnCancelar.setDisable(false);
@@ -261,12 +244,7 @@ public class GestionProductosController implements Initializable {
 		System.exit(0);
 	}
 
-	@FXML
-	private void cerrarGestionProductos(ActionEvent event) {
-		Node source = (Node) event.getSource();
-		Stage stage = (Stage) source.getScene().getWindow();
-		stage.close();
-	}
+	
 
 	@FXML
 	private void CerrarSesesionGestion(ActionEvent event) {
@@ -275,21 +253,21 @@ public class GestionProductosController implements Initializable {
 
 	}
 
-    @FXML
-    private void mensajeAyuda(ActionEvent event) {
-    	
-        String ayuda="En gestion de productos puedes realizar lo siguiente:" + "\n"
-                + "1- Observar la lista de los productos registrados. " + "\n"
-                + "2- Buscar algun producto por su nombre, escribe el nombre del producto y oprime el boton buscar.\n"
-                + "3- Registrar un nuevo producto, oprime el boton registrar producto. \n" 
-                + "4- Eliminar un producto, selecciona en la tabla o busca el producto que deseas eliminar y oprime "
-                + "el boton de eliminar. \n"
-                +"5- Modificar algún producto, selecciona o busca el producto a modificar cambia los datos y oprime el boton "
-                + "modificar.";
+	@FXML
+	private void mensajeAyuda(ActionEvent event) {
+
+		String ayuda = "En gestion de productos puedes realizar lo siguiente:" + "\n"
+				+ "1- Observar la lista de los productos registrados. " + "\n"
+				+ "2- Buscar algun producto por su nombre, escribe el nombre del producto y oprime el boton buscar.\n"
+				+ "3- Registrar un nuevo producto, oprime el boton registrar producto. \n"
+				+ "4- Eliminar un producto, selecciona en la tabla o busca el producto que deseas eliminar y oprime "
+				+ "el boton de eliminar. \n"
+				+ "5- Modificar algún producto, selecciona o busca el producto a modificar cambia los datos y oprime el boton "
+				+ "modificar.";
 		Alert alerta = new Alert(Alert.AlertType.INFORMATION);
 		alerta.setTitle("Gestion Productos");
 		alerta.setContentText(ayuda);
 		alerta.showAndWait();
-    }
+	}
 
 }

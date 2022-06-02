@@ -18,23 +18,21 @@ public class Producto {
 	private String descripcion;
 	private String fechaRegistro;
 	private String imagen;
-	private ValidarDatosImp validar = new ValidarDatosImp();
+	private ValidarDatos validar = new ValidarDatosImp();
 
 	public Producto() {
 
 	}
 
-	public Producto(String nombreProducto, int numeroUnidades,
-			        double costoUnidad, String descripcion) {
+	public Producto(String nombreProducto, int numeroUnidades, double costoUnidad, String descripcion) {
 		this.nombreProducto = nombreProducto;
 		this.numeroUnidades = numeroUnidades;
 		this.costoUnidad = costoUnidad;
 		this.descripcion = descripcion;
 	}
-	
+
 	/*
 	 * @param nombreProducto
-	 * 
 	 * @throws ExcepcionProducto
 	 */
 	public void setNombreProducto(String nombreProducto) throws ExcepcionProducto {
@@ -48,7 +46,6 @@ public class Producto {
 
 	/*
 	 * @param numeroUnidades
-	 * 
 	 * @throws ExcepcionProducto
 	 */
 	public void setNumeroUnidades(String numeroUnidades) throws ExcepcionProducto {
@@ -57,9 +54,7 @@ public class Producto {
 			this.numeroUnidades = Integer.parseInt(numeroUnidades);
 		} else {
 			throw new ExcepcionProducto(
-					"Error: Solo se admiten números " + 
-			        "enteros mayores a 0" + 
-					" en el campo unidades");
+					"Error: Solo se admiten números " + "enteros mayores a 0" + " en el campo unidades");
 		}
 	}
 
@@ -74,8 +69,7 @@ public class Producto {
 		if (validar.validarDouble(costoUnidad)) {
 			this.costoUnidad = Double.parseDouble(costoUnidad);
 		} else {
-			throw new ExcepcionProducto("Error: solo se admiten números en " +
-		                                "el campo costo: (0.00)");
+			throw new ExcepcionProducto("Error: solo se admiten números en " + "el campo costo: (0.00)");
 		}
 	}
 
@@ -94,10 +88,11 @@ public class Producto {
 	public void setImagen(String imagen) {
 		this.imagen = imagen;
 	}
-    
+
 	public void setIdProducto(long idProducto) {
 		this.idProducto = idProducto;
 	}
+
 	public String getFechaRegistro() {
 		return fechaRegistro;
 	}

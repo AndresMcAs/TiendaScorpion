@@ -1,44 +1,33 @@
 package modelo.ventas;
 
-import modelo.excepciones.AplicacionExcepcion;
+public class PagoEnEfectivo implements IPago {
 
-public class PagoEnEfectivo extends Pago {
-    
+	
 	private double cambio;
-	private double efectivo;
-
+	
 	public PagoEnEfectivo() {
 	}
 
-	public PagoEnEfectivo(double efectivo) {
-		super();
-		this.cambio = 0;
-		this.efectivo = efectivo;
+	@Override
+	public double realizarPago(double totalVenta, double monto) {
+        if(pagoCompleto(totalVenta, monto)) {
+        	return cambio = monto-totalVenta; 
+        } 
+		return totalVenta-monto;
 	}
 
 	@Override
-	public void realizarPago(double totalVenta) throws AplicacionExcepcion {
-
-		if (totalVenta < efectivo || totalVenta == efectivo) {
-
-			this.cambio = efectivo - totalVenta;
-			throw new AplicacionExcepcion("Pago realizado con exito");
-		} else {
-			throw new AplicacionExcepcion("falta efectivo, para realizar la venta ");
+	public boolean pagoCompleto(double totalVenta, double monto) {
+		boolean pagoRealizado;
+		if (totalVenta <= monto) {
+			pagoRealizado = true;
 		}
+		else pagoRealizado = false ;
+		return pagoRealizado;
 	}
 
-	public double getCambio() {
-		return cambio;
-	}
+	
 
-	public double getEfectivo() {
-		return efectivo;
-	}
-
-	public void setEfectivo(double efectivo) {
-		this.efectivo = efectivo;
-	}
 	
 
 }

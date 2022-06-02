@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.geometry.Point3D?>
 <?import javafx.geometry.Rectangle2D?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
@@ -9,10 +8,9 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.effect.SepiaTone?>
-<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -23,12 +21,12 @@
 
 <AnchorPane id="AnchorPane" prefHeight="420.0" prefWidth="609.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.RegistroProductoController">
    <children>
-      <Pane fx:id="panelRegistro" layoutX="-14.0" layoutY="40.0" prefHeight="470.0" prefWidth="750.0">
+      <Pane fx:id="panelRegistro" layoutY="32.0" prefHeight="470.0" prefWidth="750.0">
          <children>
             <GridPane layoutX="47.0" layoutY="143.0" prefHeight="254.0" prefWidth="359.0">
               <columnConstraints>
-                  <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" maxWidth="251.0" minWidth="10.0" prefWidth="153.0" />
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="261.0" minWidth="10.0" prefWidth="196.0" />
+                  <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" maxWidth="251.0" minWidth="10.0" prefWidth="162.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="261.0" minWidth="10.0" prefWidth="197.0" />
               </columnConstraints>
               <rowConstraints>
                 <RowConstraints maxHeight="64.0" minHeight="10.0" prefHeight="27.0" vgrow="SOMETIMES" />
@@ -37,63 +35,99 @@
                   <RowConstraints maxHeight="146.0" minHeight="10.0" prefHeight="113.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <TextField fx:id="txtFNombreProducto" prefHeight="14.0" prefWidth="251.0" GridPane.columnIndex="1" />
-                  <TextField fx:id="txtFCosto" prefHeight="0.0" prefWidth="249.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <TextField fx:id="txtFNombreProducto" prefHeight="14.0" prefWidth="251.0" GridPane.columnIndex="1">
+                     <font>
+                        <Font name="Modern No. 20" size="14.0" />
+                     </font></TextField>
+                  <TextField fx:id="txtFCosto" prefHeight="0.0" prefWidth="249.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                     <font>
+                        <Font name="Modern No. 20" size="14.0" />
+                     </font></TextField>
                   <TextField GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                  <TextArea fx:id="txtADescripcion" prefHeight="18.0" prefWidth="251.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                  <Label prefHeight="0.0" prefWidth="140.0" text="Nombre Producto * :" />
-                  <Label text="Número  de unidades * : " GridPane.rowIndex="1" />
-                  <Label prefHeight="18.0" prefWidth="125.0" text="Costo Por unidad * :" GridPane.rowIndex="2" />
-                  <Label text="Descripción :" GridPane.rowIndex="3" />
-                  <TextField fx:id="txtFNumeroUnidades" prefHeight="8.0" prefWidth="196.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <TextArea fx:id="txtADescripcion" prefHeight="18.0" prefWidth="251.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                     <font>
+                        <Font name="Modern No. 20" size="14.0" />
+                     </font></TextArea>
+                  <Label prefHeight="0.0" prefWidth="140.0" text="Nombre Producto * :">
+                     <font>
+                        <Font name="Modern No. 20" size="15.0" />
+                     </font></Label>
+                  <Label text="Número  De Unidades * : " GridPane.rowIndex="1">
+                     <font>
+                        <Font name="Modern No. 20" size="15.0" />
+                     </font></Label>
+                  <Label prefHeight="18.0" prefWidth="125.0" text="Costo Por Unidad * :" GridPane.rowIndex="2">
+                     <font>
+                        <Font name="Modern No. 20" size="15.0" />
+                     </font></Label>
+                  <Label prefHeight="15.0" prefWidth="89.0" text="Descripción :" GridPane.rowIndex="3">
+                     <font>
+                        <Font name="Modern No. 20" size="15.0" />
+                     </font></Label>
+                  <TextField fx:id="txtFNumeroUnidades" prefHeight="8.0" prefWidth="196.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <font>
+                        <Font name="Modern No. 20" size="14.0" />
+                     </font></TextField>
                </children>
             </GridPane>
-            <Label layoutX="248.0" layoutY="30.0" text="Registro de Productos" textFill="#155ed3" underline="true">
+            <Label layoutX="236.0" layoutY="30.0" text="Registro de Productos" textFill="#155ed3" underline="true">
                <font>
-                  <Font name="Modern No. 20" size="34.0" />
+                  <Font name="Modern No. 20" size="39.0" />
                </font>
             </Label>
-            <Pane layoutX="442.0" layoutY="109.0" prefHeight="217.0" prefWidth="275.0">
+            <Pane layoutX="452.0" layoutY="109.0" prefHeight="217.0" prefWidth="275.0">
                <children>
-                  <ImageView fx:id="imgProducto" fitHeight="154.0" fitWidth="252.0" layoutX="12.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
-                     <cursor>
-                        <Cursor fx:constant="DEFAULT" />
-                     </cursor>
-                     <rotationAxis>
-                        <Point3D x="1.0" z="1.0" />
-                     </rotationAxis>
-                     <viewport>
-                        <Rectangle2D minX="100.0" minY="100.0" />
-                     </viewport>
-                     <image>
-                        <Image url="@imagenes/producos.jpg" />
-                     </image>
-                  </ImageView>
-                  <Button fx:id="btnSeleccionImagen" layoutX="120.0" layoutY="173.0" mnemonicParsing="false" text="Seleccionar Archivo" />
+                  <Button fx:id="btnSeleccionImagen" layoutX="147.0" layoutY="165.0" mnemonicParsing="false" onAction="#seleccionarImagen" text="Seleccionar Archivo" />
+                  <SplitPane layoutX="20.0" layoutY="9.0" prefHeight="154.0" prefWidth="239.0">
+                     <items>
+                        <ImageView fx:id="imgProducto" fitHeight="154.0" fitWidth="252.0" pickOnBounds="true" preserveRatio="true">
+                           <cursor>
+                              <Cursor fx:constant="DEFAULT" />
+                           </cursor>
+                           <viewport>
+                              <Rectangle2D minX="100.0" minY="100.0" />
+                           </viewport>
+                        </ImageView>
+                     </items>
+                  </SplitPane>
                </children>
-               <effect>
-                  <SepiaTone />
-               </effect>
                <padding>
                   <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
                </padding>
             </Pane>
-            <GridPane layoutX="476.0" layoutY="338.0" prefHeight="52.0" prefWidth="203.0">
+            <GridPane layoutX="476.0" layoutY="336.0" prefHeight="54.0" prefWidth="254.0">
               <columnConstraints>
-                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="115.0" minWidth="10.0" prefWidth="115.0" />
-                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="159.0" minWidth="10.0" prefWidth="139.0" />
+                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="128.0" minWidth="10.0" prefWidth="128.0" />
+                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="159.0" minWidth="10.0" prefWidth="126.0" />
               </columnConstraints>
               <rowConstraints>
                 <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Button fx:id="btnGuardarProducto" alignment="CENTER" defaultButton="true" minHeight="19.0" mnemonicParsing="false" onAction="#guardarProducto" prefWidth="71.0" text="Guardar" />
-                  <Button fx:id="btnCancelar" cancelButton="true" mnemonicParsing="false" onAction="#cancelarRegistroProducto" text="Cancelar" GridPane.columnIndex="1" />
+                  <Button fx:id="btnGuardarProducto" alignment="CENTER" defaultButton="true" minHeight="19.0" mnemonicParsing="false" onAction="#guardarProducto" prefHeight="25.0" prefWidth="96.0" text="Guardar">
+                     <font>
+                        <Font name="Modern No. 20" size="13.0" />
+                     </font></Button>
+                  <Button fx:id="btnCancelar" cancelButton="true" mnemonicParsing="false" onAction="#cancelarRegistroProducto" prefHeight="25.0" prefWidth="81.0" text="Cancelar" GridPane.columnIndex="1">
+                     <font>
+                        <Font name="Modern No. 20" size="13.0" />
+                     </font></Button>
                </children>
             </GridPane>
-            <Label layoutX="47.0" layoutY="109.0" text="Obligatorio *" />
-            <Button layoutX="47.0" layoutY="33.0" mnemonicParsing="false" onAction="#regresarGestionProductos" text="Regresar" />
-            <TextField fx:id="fechaRegistro" disable="true" editable="false" layoutX="623.0" layoutY="20.0" prefHeight="26.0" prefWidth="91.0" />
+            <Label layoutX="47.0" layoutY="109.0" text="Obligatorio *">
+               <font>
+                  <Font name="Modern No. 20" size="16.0" />
+               </font></Label>
+            <Button fx:id="btnRegresar" layoutX="35.0" layoutY="18.0" mnemonicParsing="false" onAction="#regresarGestionProductos" prefHeight="16.0" prefWidth="30.0" />
+            <TextField fx:id="fechaRegistro" disable="true" editable="false" layoutX="205.0" layoutY="414.0" prefHeight="26.0" prefWidth="109.0">
+               <font>
+                  <Font name="Modern No. 20" size="14.0" />
+               </font></TextField>
+            <Label layoutX="50.0" layoutY="419.0" text="Fecha De Registro:">
+               <font>
+                  <Font name="Modern No. 20" size="15.0" />
+               </font>
+            </Label>
          </children>
       </Pane>
       <MenuBar layoutY="2.0" prefHeight="30.0" prefWidth="750.0">

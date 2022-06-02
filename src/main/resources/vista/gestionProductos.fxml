@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
@@ -12,15 +13,14 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
-<?import javafx.scene.paint.Color?>
-<?import javafx.scene.paint.LinearGradient?>
-<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane id="AnchorPane" prefHeight="653.0" prefWidth="995.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.GestionProductosController">
    <children>
       <Pane layoutX="8.0" layoutY="22.0" prefHeight="548.0" prefWidth="842.0">
          <children>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#d5e0eb" height="696.0" layoutX="-59.0" layoutY="-57.0" stroke="BLACK" strokeType="INSIDE" width="1047.0" />
             <SplitPane dividerPositions="0.8550884955752213" layoutX="14.0" layoutY="71.0" prefHeight="548.0" prefWidth="962.0">
               <items>
                 <AnchorPane maxWidth="-Infinity" minHeight="0.0" minWidth="0.0" prefHeight="546.0" prefWidth="742.0">
@@ -33,11 +33,15 @@
                               <TableColumn fx:id="columnFechaRegistro" prefWidth="135.0" text="Fecha de Registro" />
                               <TableColumn fx:id="columnDescripcion" prefWidth="208.0" text="           Descripcion" />
                           </columns>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
                         </TableView>
                      </children>
                   </AnchorPane>
-                <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="521.0" prefWidth="198.0">
+                <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="521.0" prefWidth="218.0">
                      <children>
+                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#d5e0eb" height="521.0" layoutX="1.0" layoutY="-12.0" stroke="#fcfafa" strokeType="INSIDE" width="198.0" />
                         <Button fx:id="btnModificar" disable="true" layoutX="14.0" layoutY="346.0" mnemonicParsing="false" onAction="#modificarProducto" prefHeight="25.0" prefWidth="95.0" text="Modificar">
                            <font>
                               <Font name="Modern No. 20" size="14.0" />
@@ -89,51 +93,19 @@
                   </AnchorPane>
               </items>
             </SplitPane>
-            <Label layoutX="358.0" layoutY="17.0" text="Productos">
+            <Label layoutX="358.0" layoutY="17.0" text="Productos" textFill="#262626">
                <font>
                   <Font name="Modern No. 20" size="47.0" />
                </font>
-               <textFill>
-                  <LinearGradient endX="1.0" endY="1.0" startX="1.0" startY="0.14218009478672988">
-                     <stops>
-                        <Stop>
-                           <color>
-                              <Color red="0.07523148506879807" green="0.5432505011558533" blue="0.8552631735801697" />
-                           </color>
-                        </Stop>
-                        <Stop offset="0.5440613026819922">
-                           <color>
-                              <Color red="0.5394737124443054" green="0.23477095365524292" blue="0.23477095365524292" />
-                           </color>
-                        </Stop>
-                        <Stop offset="1.0">
-                           <color>
-                              <Color red="1.0" green="1.0" blue="1.0" />
-                           </color>
-                        </Stop>
-                     </stops>
-                  </LinearGradient>
-               </textFill>
             </Label>
             <Button fx:id="btnActualizar" layoutX="673.0" layoutY="30.0" mnemonicParsing="false" onAction="#actualizarTabla" prefHeight="25.0" prefWidth="66.0" text="Atualizar" />
-            <Label layoutX="36.0" layoutY="22.0" prefHeight="17.0" prefWidth="95.0" text="Usuario:" />
-            <TextField fx:id="txtf" disable="true" layoutX="84.0" layoutY="18.0" prefHeight="25.0" prefWidth="188.0">
-               <font>
-                  <Font name="Modern No. 20" size="13.0" />
-               </font>
-            </TextField>
          </children>
       </Pane>
-      <MenuBar layoutY="2.0" prefHeight="25.0" prefWidth="973.0">
+      <MenuBar layoutY="2.0" prefHeight="25.0" prefWidth="995.0">
         <menus>
           <Menu mnemonicParsing="false" text="Archivo">
             <items>
               <MenuItem mnemonicParsing="false" onAction="#salirAplicacion" text="Cerrar" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" onAction="#CerrarSesesionGestion" text="Cerrar sesión">
-            <items>
-              <MenuItem mnemonicParsing="false" onAction="#cerrarGestionProductos" text="Salir" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Ayuda">
@@ -143,7 +115,7 @@
           </Menu>
         </menus>
       </MenuBar>
-      <Button layoutX="771.0" layoutY="51.0" mnemonicParsing="false" onAction="#agregarProducto" prefHeight="30.0" prefWidth="210.0" text="Registrar Producto" textAlignment="CENTER">
+      <Button fx:id="btnRegistroProducto" layoutX="771.0" layoutY="51.0" mnemonicParsing="false" onAction="#agregarProducto" prefHeight="30.0" prefWidth="210.0" text="Registrar Producto" textAlignment="CENTER">
          <font>
             <Font name="Modern No. 20" size="14.0" />
          </font>

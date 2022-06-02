@@ -11,7 +11,9 @@ public class AdminBd1 {
     public static String passw = "32b3700cd064a82ecae646962cd22352c430620f605d43195322521c3b5d9d99";
     public static String url = "jdbc:postgresql://ec2-50-19-32-96.compute-1.amazonaws.com:5432/d7bt5jntmj6frj";
 
-    public static Connection obtenerConexion() {
+   
+    
+    public static Connection conectar() {
 
 	try {
 	    Class.forName("org.postgresql.Driver");
@@ -21,7 +23,6 @@ public class AdminBd1 {
 	    System.out.println("No se encontro la clase");
 	    e.printStackTrace();
 	} catch (SQLException e) {
-	    System.out.println("Excepcion de SQL");
 	    e.printStackTrace();
 	}
 

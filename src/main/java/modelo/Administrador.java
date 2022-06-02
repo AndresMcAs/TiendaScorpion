@@ -15,6 +15,7 @@ public class Administrador extends Empleado{
 	Scene scene;
 	Stage secundaryStage;
 	FXMLLoader fxmlLoader;
+	
     public Administrador (Empleado admin) {
     	this.nombre = admin.getNombre();
     	this.apellidoPat= admin.getApellidoPat();

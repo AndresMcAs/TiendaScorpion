@@ -1,17 +1,21 @@
 package modelo.ventas;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Tarjeta {
-	private int numeroTarjeta;
+	private String numeroTarjeta;
 	private int pin;
 	private double saldo;
-	private String propietario;
+	private List<Tarjeta> tarjetas = new ArrayList<>();
 	
-	public Tarjeta(int numeroTarjeta, int pin, double saldo, String propietario) {
-		super();
+	public Tarjeta() {}
+	public Tarjeta(String numeroTarjeta, int pin, double saldo) {
+		
 		this.numeroTarjeta = numeroTarjeta;
 		this.pin = pin;
 		this.saldo = saldo;
-		this.propietario = propietario;
+		
 	}
 
 	public double getSaldo() {
@@ -22,16 +26,23 @@ public class Tarjeta {
 		this.saldo = saldo;
 	}
 
-	public int getNumeroTarjeta() {
+	public String getNumeroTarjeta() {
 		return numeroTarjeta;
 	}
 
 	public int getPin() {
 		return pin;
 	}
-
-	public String getPropietario() {
-		return propietario;
+    
+	public List<Tarjeta> listarTarjetas() {
+		
+		tarjetas.add(new Tarjeta("1234567234", 1304, 20000));
+		tarjetas.add(new Tarjeta("1827654321", 1421, 15000));
+		tarjetas.add(new Tarjeta("1534567234", 1452, 20000));
+		
+		
+		return tarjetas;
 	}
-
+	
+	
 }
