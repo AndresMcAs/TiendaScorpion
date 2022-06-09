@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
@@ -26,9 +27,10 @@
       </Label>
       <MenuBar layoutX="-1.0" layoutY="2.0" prefHeight="22.0" prefWidth="733.0">
         <menus>
-          <Menu mnemonicParsing="false" text="File">
+          <Menu mnemonicParsing="false" text="Perfil">
             <items>
-              <MenuItem mnemonicParsing="false" onAction="#cerrarInvetario" text="Close" />
+              <MenuItem fx:id="perfil" mnemonicParsing="false" />
+                  <MenuItem mnemonicParsing="false" onAction="#cerrarInvetario" text="Cerrar Sesión" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Help">
@@ -47,5 +49,6 @@
             <TableColumn fx:id="colunncosto" prefWidth="103.0" text="costo/unidad" />
         </columns>
       </TableView>
+      <Button fx:id="botonImprmir" layoutX="632.0" layoutY="89.0" mnemonicParsing="false" onAction="#imprmirInventario" text="Imprimir" />
    </children>
 </AnchorPane>

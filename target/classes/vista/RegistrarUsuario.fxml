@@ -50,7 +50,7 @@
       </Text>
       <Button layoutX="452.0" layoutY="326.0" mnemonicParsing="false" onAction="#cancelarRegistro" text="Cancelar" />
       <Button layoutX="370.0" layoutY="326.0" mnemonicParsing="false" onAction="#RegistrarUsuario" text="Registrar" />
-      <Button layoutX="533.0" layoutY="326.0" mnemonicParsing="false" onAction="#salirRegistro" text="Salir" />
+      <Button fx:id="btnSalir" layoutX="533.0" layoutY="326.0" mnemonicParsing="false" onAction="#salirRegistro" text="Salir" />
       <ComboBox fx:id="comboPuesto" layoutX="179.0" layoutY="354.0" prefWidth="150.0" />
       <Text fx:id="txtPcontrasenia1" layoutX="64.0" layoutY="368.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Puesto   *:" wrappingWidth="109.13671875" />
       <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="410.0" layoutY="167.0" pickOnBounds="true" preserveRatio="true">

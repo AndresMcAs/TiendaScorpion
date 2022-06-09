@@ -9,13 +9,17 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Optional;
 import java.util.ResourceBundle;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -53,9 +57,11 @@ public class RegistroProductoController implements Initializable {
 	private Pane panelRegistro;
 	@FXML
 	private TextField fechaRegistro;
-	@FXML
-	private Button btnRegresar;
-
+	private Producto producto;
+	private ObservableList<Producto> listaProductos;
+    @FXML
+    private MenuItem btnCerrar;
+    
 	/**
 	 * Initializes the controller class.
 	 */
@@ -66,9 +72,15 @@ public class RegistroProductoController implements Initializable {
 		String fecha = new SimpleDateFormat("dd-MM-yyyy").format(myDate);
 		fechaRegistro.setText(fecha);
 		colocarIconoBoton();
+		
 
 	}
-
+	
+	public void inicializarAtributos(ObservableList<Producto> listaProductos) {
+		
+		this.listaProductos = listaProductos;
+	}
+    
 	/**
 	 * inserccion de un prodcuto en la base de datos tienda utilizando el objeto
 	 * ProductoDao
@@ -77,29 +89,33 @@ public class RegistroProductoController implements Initializable {
 	 */
 	@FXML
 	private void guardarProducto(ActionEvent event) throws SQLException {
-
-		Producto producto = new Producto();
+        
+	    Producto productoGuardado = new Producto();
 		ProductoDao productoDao = new ProductoDaoImp();
 		boolean productoAgregado = false;
 		Alert alerta = new Alert(Alert.AlertType.INFORMATION);
 		alerta.setTitle("Producto");
 
-		try {
+		try { 
 
 			if (txtFNombreProducto.getText().length() != 0 && txtFNumeroUnidades.getText().length() != 0
 					&& txtFCosto.getText().length() != 0) {
-				producto.setNombreProducto(txtFNombreProducto.getText());
-				producto.setNumeroUnidades(txtFNumeroUnidades.getText());
-				producto.setCostoUnidad(txtFCosto.getText());
-				producto.setDescripcion(txtADescripcion.getText());
-				producto.setFechaRegistro(fechaRegistro.getText());
-				producto.setImagen(imgProducto.getAccessibleText());
-				productoAgregado = productoDao.agregarProducto(producto);
+				productoGuardado.setNombreProducto(txtFNombreProducto.getText());
+				productoGuardado.setNumeroUnidades(txtFNumeroUnidades.getText());
+				productoGuardado.setCostoUnidad(txtFCosto.getText());
+				productoGuardado.setDescripcion(txtADescripcion.getText());
+				productoGuardado.setFechaRegistro(fechaRegistro.getText());
+				productoGuardado.setImagen(imgProducto.getAccessibleText());
+				
+				this.producto = productoGuardado;
+			    productoAgregado = productoDao.agregarProducto(productoGuardado);
+				
 				if (productoAgregado == true) {
-
+					
 					alerta.setContentText("Registro Exitoso!");
 					alerta.showAndWait();
-					limpiar();
+					
+				limpiar();
 				}
 			} else {
 
@@ -125,27 +141,34 @@ public class RegistroProductoController implements Initializable {
 		txtADescripcion.setText("");
 	}
 
-	@FXML
-	private void regresarGestionProductos(ActionEvent event) {
-		Node source = (Node) event.getSource();
-		Stage stage = (Stage) source.getScene().getWindow();
-		stage.close();
-
-	}
+	
 
 	@FXML
 	private void cancelarRegistroProducto(ActionEvent event) {
-		limpiar();
+		
+		String confirmacion = String.format("¿Estas seguro de cancelar el registro?" );
+
+		Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+		alert.setHeaderText(null);
+		alert.setTitle("Confirmación");
+		alert.setContentText(confirmacion);
+		Optional<ButtonType> action = alert.showAndWait();
+
+		if (action.get() == ButtonType.OK) {
+			limpiar();
+		} else {
+			
+		}
+
 	}
 
 	private void colocarIconoBoton() {
 
 		URL urlProductoNuevo = getClass().getResource("/iconos/lista-de-verificacion.gif");
-		URL urlRegreso = getClass().getResource("/iconos/regreso.png");
+
 		Image imaProductoNuevo = new Image(urlProductoNuevo.toString(), 16, 16, false, true);
-		Image imaRegreso = new Image(urlRegreso.toString(), 20, 20, false, true);
+
 		btnGuardarProducto.setGraphic(new ImageView(imaProductoNuevo));
-		btnRegresar.setGraphic(new ImageView(imaRegreso));
 
 	}
 
@@ -156,7 +179,27 @@ public class RegistroProductoController implements Initializable {
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setTitle("Open Resource File");
 		File archivo = fileChooser.showOpenDialog(stage);
-
-		// imgProducto.setImage(archivo);
+       
+		if (archivo != null) {
+			
+			String origen = archivo.getPath();
+			Image imagen = new Image(origen);
+			imgProducto.setImage(imagen);
+		}
+		 
 	}
+
+	public Producto getProducto() {
+		return producto;
+	}
+
+    @FXML
+    private void regresarGestion(ActionEvent event) {
+    	
+    	Stage  stage=(Stage)this.btnGuardarProducto.getScene().getWindow();
+		stage.close();
+		
+		
+    }
+  
 }

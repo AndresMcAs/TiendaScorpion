@@ -77,7 +77,7 @@ public class PrincipalController implements Initializable {
 	@FXML
 	private void realizarVentaProductos(MouseEvent event) throws IOException {
 
-		Scene scene = new Scene(loadFXML("/vista/VentaDeProductos"));
+		Scene scene = new Scene(loadFXML("/vista/Login"));
 		Stage secundaryStage = new Stage();
 		secundaryStage.setScene(scene);
 		secundaryStage.initModality(Modality.APPLICATION_MODAL);
@@ -96,7 +96,7 @@ public class PrincipalController implements Initializable {
     @FXML
     private void VisualizarInventario(MouseEvent event) throws IOException {
     	
-    	Scene scene = new Scene(loadFXML("/vista/InventarioProductos"));
+    	Scene scene = new Scene(loadFXML("/vista/Login"));
 		Stage secundaryStage = new Stage();
 		secundaryStage.setScene(scene);
 		secundaryStage.initModality(Modality.APPLICATION_MODAL);

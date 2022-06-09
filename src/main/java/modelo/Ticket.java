@@ -2,16 +2,18 @@ package modelo;
 
 import java.io.PrintWriter;
 import java.util.Random;
+
+import modelo.ventas.ContextoPago;
 import modelo.ventas.IPago;
 
 public class Ticket {
 	
 	private Venta venta;
 	private String nombreCajero;
-	private IPago pago;
+	private ContextoPago pago;
 	
 	public Ticket() {}
-	public Ticket(Venta venta, String nombreCajero,IPago pago) {
+	public Ticket(Venta venta, String nombreCajero,ContextoPago pago) {
 		this.venta = venta;
 		this.nombreCajero = nombreCajero;
 		this.pago = pago;
@@ -23,7 +25,7 @@ public class Ticket {
 		 try {
 			    Random r = new Random(); 
 			    int numero = r.nextInt(5000);
-	            PrintWriter writer = new PrintWriter("/C:/Users/Asus/Documents/venta"+ numero+".txt", "UTF-8");
+	            PrintWriter writer = new PrintWriter("/C:/Users/Asus/Documents/ventas/venta"+ numero+".txt", "UTF-8");
 	            writer.println("\t Tienda Scorpion S.A de CV");
 	            writer.println("\t Rio Danubio 51, Piso 2");
 	            writer.println("\t Sucursal:739 Colonia Roma");
@@ -40,8 +42,8 @@ public class Ticket {
 	        		}
 	            writer.println("_______________________________________________");
 	            writer.println("Total    ------->" + "\t$" +venta.getTotalVenta());
-	           // writer.println("Efectivo ------->" + "\t$" + pago.getMonto());
-	           // writer.println("Cambio   ------->" + "\t$" + String.format("%.2f",pago.getCambio()));
+	            writer.println("Efectivo ------->" + "\t$" + pago.getMonto());
+	            writer.println("Cambio   ------->" + "\t$" + String.format("%.2f",pago.getCambio()));
 	            writer.println("_______________________________________________");
 	            writer.println("\t " + venta.getFechaVenta());
 	            writer.close();

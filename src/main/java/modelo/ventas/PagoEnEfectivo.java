@@ -5,15 +5,21 @@ public class PagoEnEfectivo implements IPago {
 	
 	private double cambio;
 	
+	public double getCambio() {
+		return cambio;
+	}
+
 	public PagoEnEfectivo() {
 	}
 
 	@Override
-	public double realizarPago(double totalVenta, double monto) {
-        if(pagoCompleto(totalVenta, monto)) {
-        	return cambio = monto-totalVenta; 
+	public boolean realizarPago(double totalVenta, double monto) {
+       boolean pagoExito = false ;
+		if(pagoCompleto(totalVenta, monto)) {
+        	 this.cambio = monto-totalVenta; 
+        	 pagoExito =true;
         } 
-		return totalVenta-monto;
+		return pagoExito;
 	}
 
 	@Override

@@ -6,6 +6,7 @@ import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import baseDatos.ProductoDaoImp;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -18,10 +19,14 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -36,7 +41,7 @@ import modelo.excepciones.ExcepcionProducto;
 public class GestionProductosController implements Initializable {
 
 	@FXML
-	private TableView<Producto> tablaProductos;
+	public TableView<Producto> tablaProductos;
 	@FXML
 	private TableColumn<Producto, String> columnProducto;
 	@FXML
@@ -61,21 +66,27 @@ public class GestionProductosController implements Initializable {
 	private Button btnBuscarProducto;
 	@FXML
 	private Button btnCancelar;
-	ObservableList<Producto> listaProductos;
+	private ObservableList<Producto> listaProductos;
 	@FXML
 	private Button btnModificar;
 	@FXML
 	private Button btnEliminar;
-	@FXML
-	private Button btnActualizar;
-	@FXML
-	private Label txtLusuario;
-	@FXML
-	private TextField txtf;
 
 	private long idProducto;
 	private Alert alerta = new Alert(Alert.AlertType.INFORMATION);
-
+    private String nombreAdministrador;
+    @FXML
+    private Menu perfil;
+    @FXML
+    private MenuItem nombreUsuario;
+    @FXML
+    private Button btnRegistroProducto;
+    public void setNombreAdministrador(String nombreAdministrador) {
+		this.nombreAdministrador = nombreAdministrador;
+	}
+    public String getNombreAdministrador() {
+		return nombreAdministrador;
+	}
 
 	/**
 	 * Initializes the controller class.
@@ -84,29 +95,45 @@ public class GestionProductosController implements Initializable {
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
 		inicializarTablaProductos();
-
-
+		
+		Platform.runLater(() -> {
+			nombreUsuario.setText(getNombreAdministrador());
+		});
+		
+		URL urlProductoNuevo = getClass().getResource("/iconos/usuario.png");
+		Image imaperfil= new Image(urlProductoNuevo.toString(), 16, 16, false, true);
+		this.perfil.setGraphic(new ImageView(imaperfil));
+		this.nombreUsuario.setGraphic(new ImageView(imaperfil) );
 	}
 
 	@FXML
 	private void agregarProducto(ActionEvent event) throws IOException {
-		Scene scene = new Scene(loadFXML("/vista/registroProducto"));
-		Stage secundaryStage = new Stage();
-		secundaryStage.setScene(scene);
-		secundaryStage.initModality(Modality.APPLICATION_MODAL);
-		secundaryStage.show();
+		
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/vista/registroProducto.fxml"));
+		Parent root = loader.load();
+		RegistroProductoController controlador = loader.getController();
+		controlador.inicializarAtributos(listaProductos);
+		Scene scene= new Scene(root);
+		Stage stage = new Stage();
+		stage.initModality(Modality.APPLICATION_MODAL);
+		stage.setScene(scene);
+		stage.showAndWait();
+		
+		Producto p = controlador.getProducto();
+		if (p!=null) {
+			this.listaProductos.add(p);
+			this.tablaProductos.refresh();
+		}
+		
 	}
 
-	private static Parent loadFXML(String fxml) throws IOException {
-		FXMLLoader fxmlLoader = new FXMLLoader(Tienda.class.getResource(fxml + ".fxml"));
-		return fxmlLoader.load();
-	}
 
 	@FXML
 	private void modificarProducto(ActionEvent event) throws ExcepcionProducto {
 		ProductoDaoImp productoDao = new ProductoDaoImp();
-		Producto producto = new Producto();
+		
 		try {
+			Producto producto = this.tablaProductos.getSelectionModel().getSelectedItem();
 			producto.setNombreProducto(nombreProducto.getText());
 			producto.setCostoUnidad(costoProducto.getText());
 			producto.setNumeroUnidades(unidadesProducto.getText());
@@ -122,9 +149,14 @@ public class GestionProductosController implements Initializable {
 			Optional<ButtonType> action = alert.showAndWait();
 			if (action.get() == ButtonType.OK) {
 				productoDao.modificarProducto(producto);
+				this.listaProductos.remove(producto);
+				this.listaProductos.add(producto);
+				this.tablaProductos.refresh();
+				this.tablaProductos.scrollTo(this.tablaProductos.getItems().size());
 				cancelarAccion(event);
 			} else {
 				cancelarAccion(event);
+				this.tablaProductos.refresh();
 			}
 
 		} catch (ExcepcionProducto ep) {
@@ -141,7 +173,8 @@ public class GestionProductosController implements Initializable {
 		// obtenemos el nombre del producto a eliminar ya sea buscandolo o selecionando
 		// en la lista de productos
 		String nombre = nombreProducto.getText();
-		String confirmacion = String.format("Estas seguro de eliminar el producto?" + nombre);
+		Producto producto = this.tablaProductos.getSelectionModel().getSelectedItem();
+		String confirmacion = String.format("¿Estas seguro de eliminar el producto? " + nombre);
 
 		Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
 		alert.setHeaderText(null);
@@ -151,12 +184,16 @@ public class GestionProductosController implements Initializable {
 
 		if (action.get() == ButtonType.OK) {
 			productoDao.borrarPorNombre(nombre);
+			this.listaProductos.remove(producto);
+			this.tablaProductos.refresh();
+			this.tablaProductos.scrollTo(this.tablaProductos.getItems().size());
 			cancelarAccion(event);
 		} else {
 			cancelarAccion(event);
 		}
 
 	}
+	
 
 	public void inicializarTablaProductos() {
 		ProductoDaoImp productoDao = new ProductoDaoImp();
@@ -170,14 +207,13 @@ public class GestionProductosController implements Initializable {
 			columnUnidades.setCellValueFactory(new PropertyValueFactory<Producto, Integer>("numeroUnidades"));
 			columnFechaRegistro.setCellValueFactory(new PropertyValueFactory<Producto, String>("fechaRegistro"));
 			columnDescripcion.setCellValueFactory(new PropertyValueFactory<Producto, String>("descripcion"));
-
 	
-			
 		} catch (ExcepcionProducto e) {
 			e.printStackTrace();
 		}
 
 	}
+	
 
 	@FXML
 	private void buscarProducto(ActionEvent event) {
@@ -222,36 +258,41 @@ public class GestionProductosController implements Initializable {
 
 	@FXML
 	private void seleccionarProducto(MouseEvent event) {
-
-		nombreProducto.setText(tablaProductos.getSelectionModel().getSelectedItem().getNombreProducto());
+  
+		nombreProducto.setText((String) tablaProductos.getSelectionModel().getSelectedItem().getNombreProducto());
 		costoProducto.setText(String.valueOf(tablaProductos.getSelectionModel().getSelectedItem().getCostoUnidad()));
-		unidadesProducto.setText(String.valueOf(tablaProductos.getSelectionModel().getSelectedItem().getNumeroUnidades()));
-		descripcionProducto.setText(tablaProductos.getSelectionModel().getSelectedItem().getDescripcion());
+		unidadesProducto.setText(String.valueOf( tablaProductos.getSelectionModel().getSelectedItem().getNumeroUnidades()));
+		descripcionProducto.setText((String) tablaProductos.getSelectionModel().getSelectedItem().getDescripcion());
 		idProducto = tablaProductos.getSelectionModel().getSelectedItem().getIdProducto();
+		
 		btnCancelar.setDisable(false);
 		btnEliminar.setDisable(false);
 		btnModificar.setDisable(false);
-
-	}
-
-	@FXML
-	private void actualizarTabla(ActionEvent event) {
-		inicializarTablaProductos();
-	}
-
-	@FXML
-	private void salirAplicacion(ActionEvent event) {
-		System.exit(0);
+   
 	}
 
 	
 
 	@FXML
-	private void CerrarSesesionGestion(ActionEvent event) {
+	private void salirAplicacion(ActionEvent event) {
+		
+		String confirmacion = String.format("¿Seguro de salir de gestion productos?");
 
-		// logout
+		Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+		alert.setHeaderText(null);
+		alert.setTitle("Confirmación");
+		alert.setContentText(confirmacion);
+		Optional<ButtonType> action = alert.showAndWait();
 
+		if (action.get() == ButtonType.OK) {
+		Stage  stage=(Stage)this.btnBuscarProducto.getScene().getWindow();
+		stage.close();
+		} else {
+			
+		}
 	}
+
+	
 
 	@FXML
 	private void mensajeAyuda(ActionEvent event) {
@@ -269,5 +310,12 @@ public class GestionProductosController implements Initializable {
 		alerta.setContentText(ayuda);
 		alerta.showAndWait();
 	}
+
+    @FXML
+    private void actualizarDatos(ActionEvent event) {
+    	inicializarTablaProductos();
+    	
+    }
+
 
 }

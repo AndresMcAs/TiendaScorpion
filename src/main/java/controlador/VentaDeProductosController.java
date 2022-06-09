@@ -13,6 +13,7 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -25,10 +26,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 import modelo.Producto;
 import modelo.Ticket;
-import modelo.ValidarDatos;
-import modelo.ValidarDatosImp;
+import modelo.IValidable;
+import modelo.ValidableImp;
 import modelo.Venta;
 import modelo.excepciones.AplicacionExcepcion;
 import modelo.excepciones.ExcepcionProducto;
@@ -89,7 +91,7 @@ public class VentaDeProductosController implements Initializable {
 	private Venta ventaProductos = new Venta();
 	private ProductoDao productoDao = new ProductoDaoImp();
 	private double totalVenta;
-	private ValidarDatos validaDatos = new ValidarDatosImp();
+	private IValidable validaDatos = new ValidableImp();
 	private double monto;
 	private int numProducto;
 	private Producto productoVenta;
@@ -129,6 +131,7 @@ public class VentaDeProductosController implements Initializable {
 		Platform.runLater(() -> {
 			txtfNombreCajero.setText(getNombreCajero());
 		});
+	    
 	}
 
 	@FXML
@@ -160,7 +163,8 @@ public class VentaDeProductosController implements Initializable {
 
 	@FXML
 	private void salirVentas(ActionEvent event) {
-		System.exit(0);
+		Stage  stage=(Stage)this.btnBuscarProducto.getScene().getWindow();
+		stage.close();
 	}
 
 	@FXML
@@ -176,17 +180,37 @@ public class VentaDeProductosController implements Initializable {
 		alerta.showAndWait();
 	}
 
+	 
+	
 	@FXML
 	private void pagarEnEfectivo(ActionEvent event) throws AplicacionExcepcion {
+		
+		
+		try {
+			
+			if (!txtMonto.getText().isBlank()) {
+				
+				if(validaDatos.validarCostoProducto(txtMonto.getText())) {
+					
+					while (totalVenta == pago.getAcumulador()) {
+						pago.ejecutarPago(totalVenta, monto);
+						
+						
+						}
+					}
+				}
+			
+		} catch(AplicacionExcepcion a) {}
 			
 		try {
 		
 			if (!txtMonto.getText().isBlank()) {
-				if (validaDatos.validarDouble(txtMonto.getText())) {
+				if (validaDatos.validarCostoProducto(txtMonto.getText())) {
 					
 					monto = Double.parseDouble(txtMonto.getText());
-					pago.setContextoPago(new PagoEnEfectivo());
-					if (pago.ejecutarPago(totalVenta, monto)>0.0) {
+					PagoEnEfectivo pagoE = new PagoEnEfectivo();
+					pago.setContextoPago(pagoE);
+					if (pago.ejecutarPago(totalVenta, monto)==true) {
 						Alert alerta = new Alert(Alert.AlertType.INFORMATION);
 						alerta.setTitle("Ventas");
 						alerta.setContentText("Pago realizado con exito!");
@@ -196,10 +220,11 @@ public class VentaDeProductosController implements Initializable {
 							productoDao.modificarProductoExistencias(producto, numProducto);
 		                      
 						} 
-					
-					
-		             //  txtCambio.setText(String.format("%.2f"));
-		              
+						desactivarBotonesPago();
+					  pago.setMonto(monto);
+					  pago.setCambio(pagoE.getCambio());
+		              txtCambio.setText(String.format("%.2f",pago.getCambio()));
+		              monto=0;
 					   btnImprimir.setDisable(false);
 					} else {
 						
@@ -232,51 +257,54 @@ public class VentaDeProductosController implements Initializable {
 	@FXML
 	private void PagoConTarjeta(ActionEvent event) throws AplicacionExcepcion {
 		
+		pago.setContextoPago(new PagoTarjeta());
 		try {
-		if (txfNumeroTarjeta.isEditable() && txfNumeroTarjeta.getText().length() != 0
-				  && passPin.getText().length() != 0) {
-			PagoTarjeta p = new PagoTarjeta();
-          if(validaDatos.validarDouble(passPin.getText())) {
-			if (p.verificarTarjeta(txfNumeroTarjeta.getText(), Integer.parseInt(passPin.getText()))) {
-				pago.setContextoPago(p);
-				pago.ejecutarPago(totalVenta, totalVenta);
-				if (pago.ejecutarPago(totalVenta, totalVenta)>0.0) {
-					
-					
-					Alert alerta = new Alert(Alert.AlertType.INFORMATION);
-					alerta.setTitle("Ventas");
-					alerta.setContentText("Pago realizado con exito!");
-					alerta.showAndWait();
-					for (Producto producto : ventaProductos.getProductos()) {
-						productoDao.modificarProductoExistencias(producto, numProducto);
+			if (txfNumeroTarjeta.isEditable() && txfNumeroTarjeta.getText().length() != 0
+					  && passPin.getText().length() != 0) {
+				PagoTarjeta pagoTarjeta = new PagoTarjeta();
+	          if(validaDatos.validarNumeroUnidades(passPin.getText())) {
+				if (pagoTarjeta.verificarTarjeta(txfNumeroTarjeta.getText(), Integer.parseInt(passPin.getText()))) {
+					pago.setContextoPago(pagoTarjeta);
+					pago.ejecutarPago(totalVenta, totalVenta);
+					if (pago.ejecutarPago(totalVenta,totalVenta)==true) {
+						pago.setCambio(0.0);
+						pago.setMonto(0);
+						Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+						alerta.setTitle("Ventas");
+						alerta.setContentText("Pago realizado con exito!");
+						alerta.showAndWait();
+						for (Producto producto : ventaProductos.getProductos()) {
+							productoDao.modificarProductoExistencias(producto, numProducto);
 
+						}
+						desactivarBotonesPago();
+					} else {
+						
+						Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+						alerta.setTitle("Ventas");
+						alerta.setContentText("Falta Credito para relalizar la venta" );
+						alerta.showAndWait();
+						
 					}
-					
-					btnImprimir.setDisable(false);
 				} else {
-					Alert alerta = new Alert(Alert.AlertType.INFORMATION);
-					alerta.setTitle("Ventas");
-					alerta.setContentText("Erro, falta credito para relalizar la venta");
-					alerta.showAndWait();
+					throw new AplicacionExcepcion("Error en los datos de la tarjeta ");
 				}
-			} else {
-				throw new AplicacionExcepcion("Error en los datos de la tarjeta ");
+	          } else {
+	        	  throw new AplicacionExcepcion("Error solo se permite numero en el pin");
+	          }
+	          } else {
+				throw new AplicacionExcepcion("Error ingresa el numero y pin de la tarjeta");
 			}
-          } else {
-        	  throw new AplicacionExcepcion("Error solo se permite numero en el pin");
-          }
-          } else {
-			throw new AplicacionExcepcion("Error ingresa el numero y pin de la tarjeta");
+		} catch (AplicacionExcepcion e) {
+			txtCambio.setText("0.0");
+			Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+			alerta.setTitle("Ventas");
+			alerta.setContentText(e.getMessage());
+			alerta.showAndWait();
+		
 		}
-	} catch (AplicacionExcepcion e) {
-		txtCambio.setText("0.0");
-		Alert alerta = new Alert(Alert.AlertType.INFORMATION);
-		alerta.setTitle("Ventas");
-		alerta.setContentText(e.getMessage());
-		alerta.showAndWait();
+		
 	
-	}
-
 	}
 
 	@FXML
@@ -338,7 +366,7 @@ public class VentaDeProductosController implements Initializable {
 		try {
 			
 			productoVenta = productoDao.buscarProducto(txtProductoVenta.getText());
-			if (validaDatos.validarEnteros(txtCantidadProductosVenta.getText())) {
+			if (validaDatos.validarNumeroUnidades(txtCantidadProductosVenta.getText())) {
 				ventaProductos.setCantidadProducto(Integer.parseInt(txtCantidadProductosVenta.getText()));
 				// se necesita para verificar la existencias
 				numProducto = Integer.parseInt(txtCantidadProductosVenta.getText());
@@ -347,15 +375,7 @@ public class VentaDeProductosController implements Initializable {
 
 				txtTotalCompra.setText(String.valueOf(ventaProductos.calcularTotalVenta()));
 				cancelarSeleccion(event);
-				// habilitamos los botones para proceceder con la venta
-				btnCancelarVenta.setDisable(false); // podemos cancelar la venta total
-				
-				btnPagoEfectivo.setDisable(false);// para habilitar los txt de monto
-				btnPagoTarjeta.setDisable(false);// para habilitar los txt pin y el numero de tarjeta
-				txtMonto.setEditable(true);
-				txfNumeroTarjeta.setEditable(true);
-				passPin.setEditable(true);
-			
+				habilitarBotones();
 				totalVenta = Double.parseDouble(txtTotalCompra.getText());
 				// inicializamos la lista de compra
 				inicializarTablaCompra();
@@ -403,12 +423,42 @@ public class VentaDeProductosController implements Initializable {
 
     @FXML
     private void imprimirTicket(ActionEvent event) {
-    	/*
-      Ticket t = new Ticket(ventaProductos,getNombreCajero(),pago.getPago());
+    	
+      Ticket t = new Ticket(ventaProductos,getNombreCajero(),pago);
       t.imprimirTicket();
       
       cancelarVenta(event);
-      btnImprimir.setDisable(true);*/
+      btnImprimir.setDisable(true);Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
+		alerta.setTitle("Ticket");
+		alerta.setContentText("Imprimiendo ticket...");
+		alerta.showAndWait();
+      
+      
+    }
+    
+    private void desactivarBotonesPago() {
+    	btnCancelarVenta.setDisable(true);
+     	btnPagoEfectivo.setDisable(true);
+	    btnPagoTarjeta.setDisable(true);
+	    btnAgregarProductoCompra.setDisable(true);
+	    btnImprimir.setDefaultButton(true);
+	    txtMonto.setEditable(false);
+	    txfNumeroTarjeta.setEditable(false);
+	    txfNumeroTarjeta.setEditable(false);
+	 
+    }
+    
+    private void habilitarBotones() {
+    	// habilitamos los botones para proceceder con la venta
+		btnCancelarVenta.setDisable(false); // podemos cancelar la venta total
+		btnPagoEfectivo.setDisable(false);// para habilitar los txt de monto
+		btnPagoTarjeta.setDisable(false);// para habilitar los txt pin y el numero de tarjeta
+		txtMonto.setEditable(true);
+		txfNumeroTarjeta.setEditable(true);
+		passPin.setEditable(true);
+		
+		
+	    
     }
 
 }

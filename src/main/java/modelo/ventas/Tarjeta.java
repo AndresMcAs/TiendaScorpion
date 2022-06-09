@@ -38,7 +38,7 @@ public class Tarjeta {
 		
 		tarjetas.add(new Tarjeta("1234567234", 1304, 20000));
 		tarjetas.add(new Tarjeta("1827654321", 1421, 15000));
-		tarjetas.add(new Tarjeta("1534567234", 1452, 20000));
+		tarjetas.add(new Tarjeta("1534567234", 1452, 2000));
 		
 		
 		return tarjetas;

@@ -93,19 +93,20 @@
                   </AnchorPane>
               </items>
             </SplitPane>
-            <Label layoutX="358.0" layoutY="17.0" text="Productos" textFill="#262626">
+            <Label layoutX="218.0" layoutY="14.0" text="Gestión De Productos" textFill="#262626">
                <font>
                   <Font name="Modern No. 20" size="47.0" />
                </font>
             </Label>
-            <Button fx:id="btnActualizar" layoutX="673.0" layoutY="30.0" mnemonicParsing="false" onAction="#actualizarTabla" prefHeight="25.0" prefWidth="66.0" text="Atualizar" />
          </children>
       </Pane>
       <MenuBar layoutY="2.0" prefHeight="25.0" prefWidth="995.0">
         <menus>
-          <Menu mnemonicParsing="false" text="Archivo">
+          <Menu fx:id="perfil" mnemonicParsing="false" text="Perfil">
             <items>
-              <MenuItem mnemonicParsing="false" onAction="#salirAplicacion" text="Cerrar" />
+                  <MenuItem fx:id="nombreUsuario" mnemonicParsing="false" />
+              <MenuItem mnemonicParsing="false" onAction="#salirAplicacion" text=" Cerrar sesión" />
+                  <MenuItem mnemonicParsing="false" onAction="#actualizarDatos" text="Actualizar Datos" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Ayuda">

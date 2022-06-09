@@ -14,8 +14,8 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -45,6 +45,8 @@ public class RegistrarUsuarioController implements Initializable {
 	private ComboBox<String> comboPuesto;
 	@FXML
 	private Text txtPcontrasenia1;
+    @FXML
+    private Button btnSalir;
 
 	/**
 	 * Initializes the controller class.
@@ -107,9 +109,7 @@ public class RegistrarUsuarioController implements Initializable {
 
 	@FXML
 	private void salirRegistro(ActionEvent event) {
-		Node source = (Node) event.getSource();
-		Stage stage = (Stage) source.getScene().getWindow();
-		stage.close();
+		((Stage) (this.btnSalir.getScene().getWindow())).close();
 	}
 
 }

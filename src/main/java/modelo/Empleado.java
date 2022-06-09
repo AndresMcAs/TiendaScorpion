@@ -1,5 +1,8 @@
 package modelo;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import modelo.excepciones.AplicacionExcepcion;
 
 /**
@@ -16,7 +19,7 @@ public class Empleado  {
 	private String correo;
 	private String contrasenia;
 	protected String puesto;
-	private ValidarDatos validar = new ValidarDatosImp();
+	private IValidable validar = new ValidableImp();
 
 	public Empleado() {
 
@@ -43,7 +46,9 @@ public class Empleado  {
 
 	public void setNombre(String nombreUsuario) throws AplicacionExcepcion {
 
-		if (validar.ValidarNombre(nombreUsuario)) {
+		Pattern pat = Pattern.compile("^[A-ZÁÉÍÓÚÑ][a-záéíóúñ]*((\\s)+[A-ZÁÉÍÓÚ][a-záéíóúñ]+)*");
+		Matcher mat = pat.matcher(nombreUsuario);
+		if (mat.matches()) {
 			this.nombre = nombreUsuario;
 		} else {
 			throw new AplicacionExcepcion("Escribe un nombre de usuario valido");

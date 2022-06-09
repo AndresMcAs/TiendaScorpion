@@ -1,6 +1,8 @@
 
 package modelo;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import lombok.Data;
 import modelo.excepciones.ExcepcionProducto;
 
@@ -18,13 +20,13 @@ public class Producto {
 	private String descripcion;
 	private String fechaRegistro;
 	private String imagen;
-	private ValidarDatos validar = new ValidarDatosImp();
+	private IValidable validar = new ValidableImp();
 
 	public Producto() {
 
 	}
 
-	public Producto(String nombreProducto, int numeroUnidades, double costoUnidad, String descripcion) {
+	public Producto(String nombreProducto,String fecha, int numeroUnidades, double costoUnidad, String descripcion) {
 		this.nombreProducto = nombreProducto;
 		this.numeroUnidades = numeroUnidades;
 		this.costoUnidad = costoUnidad;
@@ -36,8 +38,9 @@ public class Producto {
 	 * @throws ExcepcionProducto
 	 */
 	public void setNombreProducto(String nombreProducto) throws ExcepcionProducto {
-
-		if (validar.ValidarNombre(nombreProducto)) {
+		Pattern pat = Pattern.compile("^[A-ZÁÉÍÓÚÑ][a-záéíóúñ]*((\\s)+[A-ZÁÉÍÓÚ][a-záéíóúñ]+)*");
+		Matcher mat = pat.matcher(nombreProducto);
+		if (mat.matches()) {
 			this.nombreProducto = nombreProducto;
 		} else {
 			throw new ExcepcionProducto("Escribe un nombre de producto valido");
@@ -50,11 +53,12 @@ public class Producto {
 	 */
 	public void setNumeroUnidades(String numeroUnidades) throws ExcepcionProducto {
 
-		if (validar.validarEnteros(numeroUnidades)) {
+		if (validar.validarNumeroUnidades(numeroUnidades)) {
 			this.numeroUnidades = Integer.parseInt(numeroUnidades);
 		} else {
 			throw new ExcepcionProducto(
-					"Error: Solo se admiten números " + "enteros mayores a 0" + " en el campo unidades");
+					"Error: Solo se admiten números " + "enteros mayores a 0 y menor a 99999"
+			         + " en el campo unidades");
 		}
 	}
 
@@ -65,8 +69,11 @@ public class Producto {
 	 * @throws ExcepcionProducto
 	 */
 	public void setCostoUnidad(String costoUnidad) throws ExcepcionProducto {
+       //^([1-9][0-9]{0,5}(\\.[0-9]{1,2})?)$
+		Pattern pat = Pattern.compile("[+]?([[0-9][0-9]*]{1,5}[.])?[0-9]+");
+		Matcher mat = pat.matcher(costoUnidad);
 
-		if (validar.validarDouble(costoUnidad)) {
+		if (mat.matches()) {
 			this.costoUnidad = Double.parseDouble(costoUnidad);
 		} else {
 			throw new ExcepcionProducto("Error: solo se admiten números en " + "el campo costo: (0.00)");

@@ -118,7 +118,6 @@
                <font>
                   <Font name="Modern No. 20" size="16.0" />
                </font></Label>
-            <Button fx:id="btnRegresar" layoutX="35.0" layoutY="18.0" mnemonicParsing="false" onAction="#regresarGestionProductos" prefHeight="16.0" prefWidth="30.0" />
             <TextField fx:id="fechaRegistro" disable="true" editable="false" layoutX="205.0" layoutY="414.0" prefHeight="26.0" prefWidth="109.0">
                <font>
                   <Font name="Modern No. 20" size="14.0" />
@@ -134,7 +133,7 @@
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
-              <MenuItem mnemonicParsing="false" text="Close" />
+              <MenuItem fx:id="btnCerrar" mnemonicParsing="false" onAction="#regresarGestion" text="Close" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Edit">

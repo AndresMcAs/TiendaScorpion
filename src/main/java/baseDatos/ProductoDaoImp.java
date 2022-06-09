@@ -153,8 +153,9 @@ public class ProductoDaoImp implements ProductoDao {
 				int unidades = productoSet.getInt("unidades");
 				double costo = productoSet.getDouble("costo");
 				String descripcion = productoSet.getString("descripcion");
+				String fecha = productoSet.getString("fecha");
 
-				productoHallado = new Producto(nombreProducto, unidades, costo, descripcion);
+				productoHallado = new Producto(nombreProducto, fecha,unidades, costo, descripcion);
 				return productoHallado;
 			}
 		} catch (SQLException e) {

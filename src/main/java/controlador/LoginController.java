@@ -59,9 +59,15 @@ public class LoginController implements Initializable {
 			Scene scene;
 			Stage secundaryStage;
 
-
 			if (usuario.getPuesto().equals("ADMIN")) {
-				lanzarSiguienteVentana("gestionProductos.fxml");
+				scene = new Scene(loadFXML("/vista/gestionProductos"));
+                GestionProductosController controlGestion = fxmlLoader.getController();
+                controlGestion.setNombreAdministrador(usuario.getNombre() + " " + usuario.getApellidoPat());
+				secundaryStage = new Stage();
+				secundaryStage.setScene(scene);
+				secundaryStage.initModality(Modality.WINDOW_MODAL);
+				secundaryStage.show();
+				((Stage) (btnIniciarSesion.getScene().getWindow())).close();
 				
 			}
 			else if (usuario.getPuesto().equals("CAJERO")) {
@@ -73,11 +79,18 @@ public class LoginController implements Initializable {
 				secundaryStage.setScene(scene);
 				secundaryStage.initModality(Modality.WINDOW_MODAL);
 				secundaryStage.show();
-				limpiar();
+		        ((Stage) (btnIniciarSesion.getScene().getWindow())).close();
 				
 			} 
 			else if (usuario.getPuesto().equals("GERENTE")) {
-				
+				scene = new Scene(loadFXML("/vista/InventarioProductos"));
+				InventarioProductosController controlVentas = fxmlLoader.getController();
+                controlVentas.setNombreGerente(usuario.getNombre() + " " + usuario.getApellidoPat());
+				secundaryStage = new Stage();
+				secundaryStage.setScene(scene);
+				secundaryStage.initModality(Modality.WINDOW_MODAL);
+				secundaryStage.show();
+		        ((Stage) (btnIniciarSesion.getScene().getWindow())).close();
 			}
 			else {
 				Alert alerta = new Alert(Alert.AlertType.ERROR);
@@ -106,7 +119,7 @@ public class LoginController implements Initializable {
 
 	private void limpiar() {
 
-		txtFCorreo.setText("");
+	
 		txtFcontrasenia.setText("");
 
 	}

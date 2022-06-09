@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.geometry.Rectangle2D?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
@@ -11,6 +12,7 @@
 <?import javafx.scene.effect.ColorAdjust?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.effect.Glow?>
+<?import javafx.scene.effect.Reflection?>
 <?import javafx.scene.effect.SepiaTone?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -37,25 +39,26 @@
                   <Font name="Modern No. 20" size="48.0" />
                </font>
             </Label>
-            <TabPane layoutX="109.0" layoutY="134.0" prefHeight="318.0" prefWidth="434.0" tabClosingPolicy="UNAVAILABLE">
+            <TabPane layoutX="159.0" layoutY="134.0" prefHeight="318.0" prefWidth="444.0" tabClosingPolicy="UNAVAILABLE">
               <tabs>
                 <Tab text="Productos">
                   <content>
                     <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="0.0" minWidth="0.0" prefHeight="237.0" prefWidth="429.0">
                            <children>
-                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="117.0" layoutX="249.0" layoutY="42.0" stroke="BLACK" strokeType="INSIDE" width="125.0" />
-                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="117.0" layoutX="38.0" layoutY="42.0" stroke="BLACK" strokeType="INSIDE" width="125.0" />
-                              <ImageView fitHeight="223.0" fitWidth="436.0" layoutX="10.0" layoutY="7.0" opacity="0.48" pickOnBounds="true" preserveRatio="true">
+                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#eef2f5" height="246.0" layoutX="1.0" layoutY="-1.0" stroke="#fffefe" strokeType="INSIDE" width="444.0" />
+                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="114.0" layoutX="249.0" layoutY="58.0" stroke="BLACK" strokeType="INSIDE" width="125.0" />
+                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="120.0" layoutX="44.0" layoutY="54.0" stroke="BLACK" strokeType="INSIDE" width="131.0" />
+                              <ImageView fitHeight="252.0" fitWidth="505.0" layoutX="1.0" layoutY="-3.0" opacity="0.48" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@imagenes/producos.jpg" />
                                  </image>
                               </ImageView>
-                              <Label layoutX="263.0" layoutY="158.0" prefHeight="21.0" prefWidth="96.0" text="Inventario" textFill="#1b1b1a">
+                              <Label layoutX="278.0" layoutY="181.0" prefHeight="21.0" prefWidth="96.0" text="Inventario" textFill="#1b1b1a">
                                  <font>
                                     <Font name="Modern No. 20" size="20.0" />
                                  </font>
                               </Label>
-                              <ImageView fx:id="imgGestionProdutos" fitHeight="114.0" fitWidth="131.0" layoutX="44.0" layoutY="42.0" onMouseClicked="#gestionarProductos" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="imgGestionProdutos" fitHeight="107.0" fitWidth="135.0" layoutX="49.0" layoutY="63.0" onMouseClicked="#gestionarProductos" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../iconos/gestion-de-proyectos.png" />
                                  </image>
@@ -63,12 +66,12 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </ImageView>
-                              <Label layoutX="20.0" layoutY="155.0" prefHeight="26.0" prefWidth="215.0" text="Gestión De Productos" textFill="#111111">
+                              <Label layoutX="25.0" layoutY="179.0" prefHeight="26.0" prefWidth="215.0" text="Gestión De Productos" textFill="#111111">
                                  <font>
                                     <Font name="Modern No. 20" size="20.0" />
                                  </font>
                               </Label>
-                              <ImageView fx:id="imgInventario" fitHeight="94.0" fitWidth="137.0" layoutX="264.0" layoutY="52.0" onMouseClicked="#VisualizarInventario" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="imgInventario" fitHeight="109.0" fitWidth="95.0" layoutX="264.0" layoutY="71.0" onMouseClicked="#VisualizarInventario" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../iconos/inventario.png" />
                                  </image>
@@ -88,20 +91,26 @@
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f6f7f8" height="160.0" layoutX="143.0" layoutY="40.0" stroke="BLACK" strokeType="INSIDE" width="172.0">
-                                 <cursor>
-                                    <Cursor fx:constant="DEFAULT" />
-                                 </cursor>
-                              </Rectangle>
-                              <ImageView fx:id="imgVentas" accessibleRole="BUTTON" fitHeight="136.0" fitWidth="159.0" layoutX="154.0" layoutY="49.0" onMouseClicked="#realizarVentaProductos" pickOnBounds="true" preserveRatio="true">
+                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#eef2f5" height="268.0" layoutX="-19.0" layoutY="-6.0" stroke="WHITE" strokeType="INSIDE" width="462.0" />
+                              <ImageView fx:id="imgVentas" accessibleRole="BUTTON" fitHeight="131.0" fitWidth="144.0" layoutX="135.0" layoutY="47.0" onMouseClicked="#realizarVentaProductos" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="79.0" AnchorPane.leftAnchor="135.0" AnchorPane.rightAnchor="175.0" AnchorPane.topAnchor="47.0">
                                  <image>
                                     <Image url="@../iconos/ventas.png" />
                                  </image>
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
+                                 <effect>
+                                    <Reflection bottomOpacity="0.41" fraction="0.17" topOpacity="0.0">
+                                       <input>
+                                          <Glow />
+                                       </input>
+                                    </Reflection>
+                                 </effect>
+                                 <viewport>
+                                    <Rectangle2D minX="2.0" minY="2.0" />
+                                 </viewport>
                               </ImageView>
-                              <Label layoutX="135.0" layoutY="209.0" text=" Venta De Productos" textFill="#adb572">
+                              <Label layoutX="125.0" layoutY="200.0" prefHeight="0.0" prefWidth="174.0" text=" Venta De Productos" textFill="#111111">
                                  <font>
                                     <Font name="Modern No. 20" size="21.0" />
                                  </font>
@@ -114,12 +123,19 @@
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <ImageView fx:id="imagRegistroPersonal" fitHeight="144.0" fitWidth="133.0" layoutX="145.0" layoutY="24.0" onMouseClicked="#registrarEmpleados" pickOnBounds="true" preserveRatio="true">
+                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#eef2f5" height="262.0" stroke="WHITE" strokeType="INSIDE" width="444.0" />
+                              <ImageView fx:id="imagRegistroPersonal" fitHeight="144.0" fitWidth="133.0" layoutX="147.0" layoutY="52.0" onMouseClicked="#registrarEmpleados" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../iconos/grupo.png" />
                                  </image>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                                 <effect>
+                                    <Reflection fraction="0.29" topOpacity="0.14" />
+                                 </effect>
                               </ImageView>
-                              <Label layoutX="132.0" layoutY="165.0" text="Registrar Empleados">
+                              <Label layoutX="133.0" layoutY="192.0" text="Registrar Empleados">
                                  <font>
                                     <Font name="Modern No. 20" size="19.0" />
                                  </font>
@@ -144,7 +160,7 @@
                   <ColorAdjust />
                </effect>
             </ImageView>
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#d5e0eb" height="60.0" layoutX="9.0" layoutY="472.0" stroke="#fcfcfc" strokeType="INSIDE" width="707.0" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#d5e0eb" height="75.0" layoutX="9.0" layoutY="457.0" stroke="#fcfcfc" strokeType="INSIDE" width="707.0" />
          </children>
          <effect>
             <Glow />

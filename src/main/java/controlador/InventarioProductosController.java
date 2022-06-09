@@ -5,18 +5,25 @@
 package controlador;
 
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import baseDatos.ProductoDaoImp;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import modelo.Producto;
 import modelo.excepciones.ExcepcionProducto;
@@ -39,17 +46,48 @@ public class InventarioProductosController implements Initializable {
     @FXML
     private TableColumn<Producto, Double> colunncosto;
     ObservableList<Producto> listaProductos;
+  
+    @FXML
+    private Button botonImprmir;
+    @FXML
+    private MenuItem perfil;
+    private String nombreGerente;
+    public void setNombreGerente(String nombreGerente) {
+		this.nombreGerente = nombreGerente;
+	}
+    
+    public String getNombreGerente() {
+		return nombreGerente;
+	}
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         inicializaTabla();
+        
+        Platform.runLater(() -> {
+			perfil.setText(getNombreGerente());
+		});
+        URL urlProductoNuevo = getClass().getResource("/iconos/usuario.png");
+		Image imaperfil= new Image(urlProductoNuevo.toString(), 16, 16, false, true);
+		this.perfil.setGraphic(new ImageView(imaperfil));
+		
     }    
 
     @FXML
     private void cerrarInvetario(ActionEvent event) {
-    	System.exit(0);
+    	String confirmacion = String.format("¿Segur@ deseas cerrar sesión?");
+
+		Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+		alert.setHeaderText(null);
+		alert.setTitle("Confirmación");
+		alert.setContentText(confirmacion);
+		Optional<ButtonType> action = alert.showAndWait();
+
+		if (action.get() == ButtonType.OK) {
+    	Stage  stage=(Stage)this.botonImprmir.getScene().getWindow();
+		stage.close();}
     }
     
     public void inicializaTabla() {
@@ -71,5 +109,10 @@ public class InventarioProductosController implements Initializable {
 		}
 
     }
+    
+    @FXML
+    private void imprmirInventario(ActionEvent event) {
+    }
+    
     
 }

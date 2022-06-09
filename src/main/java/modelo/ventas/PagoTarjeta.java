@@ -23,15 +23,18 @@ public class PagoTarjeta implements IPago {
 	}
 
 	@Override
-	public double realizarPago(double totalVenta, double monto) {
-		double resultado = -1;
+	public boolean realizarPago(double totalVenta, double monto) {
+		//double resultado = -1;
+		boolean pagoExitoso= false;
 		if (totalVenta <= terjetaRecuperada.getSaldo()) {
-			terjetaRecuperada.setSaldo(terjetaRecuperada.getSaldo() - monto);
+			terjetaRecuperada.setSaldo(terjetaRecuperada.getSaldo() - totalVenta);
 			
-		     resultado= totalVenta - monto;
+		    // resultado= totalVenta - monto;
+			pagoExitoso = true;
 			
 		}
-		return resultado;
+		return pagoExitoso;
+		
 	}
 
 
