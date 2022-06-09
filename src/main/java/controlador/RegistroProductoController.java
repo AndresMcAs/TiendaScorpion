@@ -2,6 +2,7 @@
 package controlador;
 
 import baseDatos.ProductoDaoImp;
+import java.io.File;
 import java.net.URL;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
@@ -15,8 +16,10 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import modelo.Producto;
 import modelo.excepciones.ExcepcionProducto;
@@ -36,7 +39,7 @@ public class RegistroProductoController implements Initializable {
   private TextField txtFCosto;
   @FXML
   private TextArea txtADescripcion;
-  @FXML
+    @FXML
   private ImageView imgProducto;
   @FXML
   private Button btnSeleccionImagen;
@@ -48,7 +51,8 @@ public class RegistroProductoController implements Initializable {
   private Pane panelRegistro;
     @FXML
     private TextField fechaRegistro;
-
+    @FXML
+    private Button btnRegresar;
   /**
   * Initializes the controller class.
   */
@@ -57,8 +61,9 @@ public class RegistroProductoController implements Initializable {
     
       Date myDate = new Date();
       String fecha = new SimpleDateFormat("dd-MM-yyyy").format(myDate);
-      fechaRegistro.setText(fecha);
-       
+      fechaRegistro.setText(fecha); 
+      
+      colocarIconoBoton();
   }    
   
   /**
@@ -84,7 +89,7 @@ public class RegistroProductoController implements Initializable {
         producto.setCostoUnidad(txtFCosto.getText());
         producto.setDescripcion(txtADescripcion.getText());
         producto.setFechaRegistro(fechaRegistro.getText());
-        producto.setImagen(imgProducto.getAccessibleText());
+       // producto.setImagen(imgProducto.getAccessibleText());
         productoAgregado = productoDao.agregarProducto(producto);
         if (productoAgregado == true) {
         	
@@ -128,4 +133,37 @@ public class RegistroProductoController implements Initializable {
   private void cancelarRegistroProducto(ActionEvent event) {
     limpiar();
   }
+
+    @FXML
+    private void seleccionarArchivo(ActionEvent event) {
+    	
+    	Node source = (Node) event.getSource();
+    	Stage stage = (Stage) source.getScene().getWindow();
+    	FileChooser btnSeleccionImagen= new FileChooser();
+    	File archivo =btnSeleccionImagen.showOpenDialog(stage);
+        if (archivo != null) {
+        	
+  		 String origen = archivo.getPath();
+  		 javafx.scene.image.Image imagen = new javafx.scene.image.Image(origen);
+  		  
+  		  imgProducto.setImage(imagen);
+        }
+    
+    }
+    
+    private void colocarIconoBoton() {
+    	
+    	URL urlproductoNuevo = getClass().getResource("/iconos/lista-de-verificacion.gif");
+    	
+    	Image imagenProducto= new Image(urlproductoNuevo.toString(),16,16,false,true);
+    	
+    	
+    	btnGuardarProducto.setGraphic(new ImageView(imagenProducto));
+        
+    }
+
+    
+    
+   
+
 }

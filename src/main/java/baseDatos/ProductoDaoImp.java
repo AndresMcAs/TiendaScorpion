@@ -1,6 +1,9 @@
 
 package baseDatos;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -40,19 +43,20 @@ public class ProductoDaoImp implements ProductoDao{
 	 * @param producto
 	 * @return
 	 * @throws SQLException
+	 * @throws FileNotFoundException 
 	 */
 	@Override
-	public boolean agregarProducto(Producto producto) throws SQLException {
+	public boolean agregarProducto(Producto producto) throws SQLException{
 
 		int resultInsert = 0;
 		String sql;
 		PreparedStatement ps = null;
-
+		//File archivo = new File(producto.getImagen());
 		if (conexionTransferida == false) {
 			conexion = admin.conectar();
 		}
 		try {
-
+			//FileInputStream convertirImag = new FileInputStream(archivo);
 			sql = "insert into productos (nombre, unidades, costo, descripcion,fecha)" 
 			+ "values(?, ?, ?, ?, ?)";
 
@@ -62,7 +66,7 @@ public class ProductoDaoImp implements ProductoDao{
 			ps.setDouble(3, producto.getCostoUnidad());
 			ps.setString(4, producto.getDescripcion());
 			ps.setString(5, producto.getFechaRegistro());
-			// ps.setString(6, producto.getImagen());
+			//ps.setBlob(6, convertirImag, archivo.length());
 
 			resultInsert = ps.executeUpdate();
 

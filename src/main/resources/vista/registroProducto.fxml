@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.geometry.Point3D?>
 <?import javafx.geometry.Rectangle2D?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
@@ -9,9 +8,9 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.effect.SepiaTone?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -23,7 +22,7 @@
 
 <AnchorPane id="AnchorPane" prefHeight="420.0" prefWidth="609.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.RegistroProductoController">
    <children>
-      <Pane fx:id="panelRegistro" layoutX="-14.0" layoutY="40.0" prefHeight="470.0" prefWidth="750.0">
+      <Pane fx:id="panelRegistro" layoutY="32.0" prefHeight="470.0" prefWidth="750.0">
          <children>
             <GridPane layoutX="47.0" layoutY="143.0" prefHeight="254.0" prefWidth="359.0">
               <columnConstraints>
@@ -53,47 +52,47 @@
                   <Font name="Modern No. 20" size="34.0" />
                </font>
             </Label>
-            <Pane layoutX="442.0" layoutY="109.0" prefHeight="217.0" prefWidth="275.0">
+            <Pane layoutX="442.0" layoutY="109.0" prefHeight="216.0" prefWidth="297.0">
                <children>
-                  <ImageView fx:id="imgProducto" fitHeight="154.0" fitWidth="252.0" layoutX="12.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
-                     <cursor>
-                        <Cursor fx:constant="DEFAULT" />
-                     </cursor>
-                     <rotationAxis>
-                        <Point3D x="1.0" z="1.0" />
-                     </rotationAxis>
-                     <viewport>
-                        <Rectangle2D minX="100.0" minY="100.0" />
-                     </viewport>
-                     <image>
-                        <Image url="@imagenes/producos.jpg" />
-                     </image>
-                  </ImageView>
-                  <Button fx:id="btnSeleccionImagen" layoutX="120.0" layoutY="173.0" mnemonicParsing="false" text="Seleccionar Archivo" />
+                  <Button fx:id="btnSeleccionImagen" layoutX="138.0" layoutY="178.0" mnemonicParsing="false" onAction="#seleccionarArchivo" text="Seleccionar Archivo" />
+                  <SplitPane layoutX="20.0" layoutY="14.0" prefHeight="154.0" prefWidth="235.0">
+                     <items>
+                        <ImageView fx:id="imgProducto" fitHeight="154.0" fitWidth="252.0" pickOnBounds="true" preserveRatio="true" smooth="false">
+                           <cursor>
+                              <Cursor fx:constant="DEFAULT" />
+                           </cursor>
+                           <viewport>
+                              <Rectangle2D minX="100.0" minY="100.0" />
+                           </viewport>
+                        </ImageView>
+                     </items>
+                  </SplitPane>
                </children>
-               <effect>
-                  <SepiaTone />
-               </effect>
                <padding>
                   <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
                </padding>
             </Pane>
-            <GridPane layoutX="476.0" layoutY="338.0" prefHeight="52.0" prefWidth="203.0">
+            <GridPane layoutX="476.0" layoutY="334.0" prefHeight="56.0" prefWidth="238.0">
               <columnConstraints>
-                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="115.0" minWidth="10.0" prefWidth="115.0" />
-                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="159.0" minWidth="10.0" prefWidth="139.0" />
+                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="115.0" minWidth="10.0" prefWidth="112.0" />
+                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="159.0" minWidth="10.0" prefWidth="91.0" />
               </columnConstraints>
               <rowConstraints>
                 <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Button fx:id="btnGuardarProducto" alignment="CENTER" defaultButton="true" minHeight="19.0" mnemonicParsing="false" onAction="#guardarProducto" prefWidth="71.0" text="Guardar" />
+                  <Button fx:id="btnGuardarProducto" alignment="CENTER" defaultButton="true" minHeight="19.0" mnemonicParsing="false" onAction="#guardarProducto" prefHeight="24.0" prefWidth="109.0" text="Guardar" />
                   <Button fx:id="btnCancelar" cancelButton="true" mnemonicParsing="false" onAction="#cancelarRegistroProducto" text="Cancelar" GridPane.columnIndex="1" />
                </children>
             </GridPane>
             <Label layoutX="47.0" layoutY="109.0" text="Obligatorio *" />
-            <Button layoutX="47.0" layoutY="33.0" mnemonicParsing="false" onAction="#regresarGestionProductos" text="Regresar" />
+            <Button fx:id="btnRegresar" layoutX="29.0" layoutY="21.0" mnemonicParsing="false" onAction="#regresarGestionProductos" prefHeight="25.0" prefWidth="36.0" />
             <TextField fx:id="fechaRegistro" disable="true" editable="false" layoutX="623.0" layoutY="20.0" prefHeight="26.0" prefWidth="91.0" />
+            <ImageView fitHeight="36.0" fitWidth="53.0" layoutX="81.0" layoutY="21.0" onMouseClicked="#regresarPri" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="regresaGestion" />
+               </image>
+            </ImageView>
          </children>
       </Pane>
       <MenuBar layoutY="2.0" prefHeight="30.0" prefWidth="750.0">
